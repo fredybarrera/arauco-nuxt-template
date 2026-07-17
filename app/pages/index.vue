@@ -4,22 +4,22 @@ const { showToast } = useToast()
 
 <template>
   <div class="flex flex-col gap-6">
-    <header>
-      <h1 class="font-display text-2xl font-bold tracking-wide uppercase">Plantilla base · Planos DS</h1>
-      <p class="mt-1 text-sm text-ink-soft">
-        Base limpia con tokens Tailwind v4, layout corporativo y componentes del design system, sin lógica de
-        negocio. Revisa la página
-        <NuxtLink to="/componentes" class="font-semibold text-calipso hover:underline">Componentes</NuxtLink>
-        para ver la librería en acción.
-      </p>
-    </header>
-
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <KpiTile label="Tokens de color" value="14" trend="up" trend-label="paleta corporativa" />
-      <KpiTile label="Componentes" value="41" trend="up" trend-label="auto-importados" />
-      <KpiTile label="Composables" value="3" trend="up" trend-label="toast · confirm · scrollspy" />
-      <KpiTile label="Dependencias" value="5" trend="down" trend-label="sin Pinia ni Axios" />
-    </div>
+    <AppHero
+      size="lg"
+      eyebrow="Arauco · Planos DS"
+      title="Plantilla base"
+      subtitle="Base limpia con tokens Tailwind v4, layout corporativo y componentes del design system, sin lógica de negocio. Revisa la página Componentes para ver la librería en acción."
+    >
+      <template #actions>
+        <AppButton variant="primary" @click="navigateTo('/componentes')">Ver componentes</AppButton>
+      </template>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KpiTile label="Tokens de color" value="14" trend="up" trend-label="paleta corporativa" />
+        <KpiTile label="Componentes" value="60" trend="up" trend-label="auto-importados" />
+        <KpiTile label="Composables" value="7" trend="up" trend-label="toast · confirm · theme…" />
+        <KpiTile label="Dependencias" value="5" trend="down" trend-label="sin Pinia ni Axios" />
+      </div>
+    </AppHero>
 
     <section class="frame">
       <h2 class="mb-3 font-display text-lg font-bold">Primeros pasos</h2>

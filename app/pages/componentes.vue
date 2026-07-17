@@ -177,6 +177,46 @@ async function probarConfirm() {
       </div>
     </section>
 
+    <!-- Heroes -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Secciones hero</h2>
+      <div class="flex flex-col gap-4">
+        <AppHero
+          as="h3"
+          size="sm"
+          title="Hero compacto (sm)"
+          subtitle="Para encabezar sub-secciones o páginas secundarias."
+        >
+          <template #actions>
+            <AppButton variant="outline" size="sm">Acción</AppButton>
+          </template>
+        </AppHero>
+        <AppHero
+          as="h3"
+          size="md"
+          eyebrow="Eyebrow opcional"
+          title="Hero estándar (md)"
+          subtitle="El tamaño por defecto para encabezar la mayoría de las páginas."
+        >
+          <template #actions>
+            <AppButton variant="outline" size="sm">Secundaria</AppButton>
+            <AppButton variant="primary" size="sm">Principal</AppButton>
+          </template>
+        </AppHero>
+        <AppHero
+          as="h3"
+          size="lg"
+          eyebrow="Arauco · Planos DS"
+          title="Hero destacado (lg)"
+          subtitle="Para portadas y dashboards. El slot por defecto acepta contenido extra, como una fila de KPIs (ver la página de inicio)."
+        >
+          <template #actions>
+            <AppButton variant="primary">Comenzar</AppButton>
+          </template>
+        </AppHero>
+      </div>
+    </section>
+
     <!-- Formularios -->
     <section class="frame">
       <h2 class="mb-4 font-display text-lg font-bold">Formularios</h2>
@@ -340,6 +380,25 @@ async function probarConfirm() {
     <!-- Gráficos -->
     <section class="frame">
       <h2 class="mb-4 font-display text-lg font-bold">Gráficos y KPIs</h2>
+      <div class="mb-4 grid items-start gap-4 md:grid-cols-3">
+        <KpiTile
+          size="sm"
+          label="KPI compacto (sm)"
+          value="87"
+          unit="%"
+          trend="up"
+          trend-label="+4% vs mes anterior"
+        />
+        <KpiTile label="KPI estándar (md)" value="87" unit="%" trend="up" trend-label="+4% vs mes anterior" />
+        <KpiTile
+          size="lg"
+          label="KPI destacado (lg)"
+          value="87"
+          unit="%"
+          trend="down"
+          trend-label="-2% vs mes anterior"
+        />
+      </div>
       <div class="grid gap-4 md:grid-cols-3">
         <KpiTile label="Ejemplo KPI" value="87" unit="%" trend="up" trend-label="+4% vs mes anterior" />
         <TrendSparkline :data="[4, 6, 5, 8, 9, 7, 11]" label="Tendencia" />

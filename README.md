@@ -126,7 +126,9 @@ slot `#label="{ node, depth }"`)
 (standalone: `v-model` página + `total-pages`)
 **Indicadores**: AppSpinner (hereda color), AppProgress (`value` 0–100 o indeterminado,
 `tone`, `show-value`), AppBreadcrumbs (`items: { label, to? }[]`)
-**Gráficos**: BarChart, TrendSparkline, KpiTile
+**Gráficos**: BarChart, TrendSparkline, KpiTile (`size` sm/md/lg)
+**Hero**: AppHero (`size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` para el nivel
+de encabezado, slot `#actions` y slot default para contenido extra, p. ej. fila de KPIs)
 **Calendario**: AppCalendar (vista mensual: `events: CalendarEvent[]` con `tone`,
 `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, eventos `@select-day` /
 `@select-event`)
