@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DataTableColumn, FilterDef } from '~/types/table'
-import type { SelectOption } from '~/types/form'
+import type { ComboboxModel, SelectOption } from '~/types/form'
 import type { TreeNode } from '~/types/tree'
 
 const { showToast } = useToast()
@@ -18,6 +18,18 @@ const areaOptions: SelectOption[] = [
 const errorCorreo = computed(() =>
   correo.value && !correo.value.includes('@') ? 'Ingresa un correo válido.' : undefined
 )
+
+const responsable = ref<ComboboxModel>(null)
+const areasVisibles = ref<ComboboxModel>(['Forestal'])
+const produccion = ref<number | null>(12480.5)
+const responsables: SelectOption[] = [
+  { label: 'Ana Pérez', value: 'aperez' },
+  { label: 'Luis Soto', value: 'lsoto' },
+  { label: 'Rosa Díaz', value: 'rdiaz' },
+  { label: 'Marcelo Fuentes', value: 'mfuentes' },
+  { label: 'Carla Muñoz (licencia)', value: 'cmunoz', disabled: true },
+  { label: 'Jorge Riquelme', value: 'jriquelme' },
+]
 
 const nodoSeleccionado = ref<string | null>('mdf-l1')
 const jerarquia: TreeNode[] = [
@@ -163,6 +175,25 @@ async function probarConfirm() {
             show-count
             placeholder="Describe el proyecto…"
           />
+        </AppFormField>
+        <AppFormField label="Responsable" hint="Combobox con búsqueda.">
+          <AppCombobox
+            v-model="responsable"
+            :options="responsables"
+            placeholder="Busca una persona…"
+            clearable
+          />
+        </AppFormField>
+        <AppFormField label="Áreas visibles" hint="Selección múltiple con chips.">
+          <AppCombobox
+            v-model="areasVisibles"
+            :options="areaOptions"
+            multiple
+            placeholder="Selecciona áreas…"
+          />
+        </AppFormField>
+        <AppFormField label="Producción mensual" hint="Formato es-CL al salir del campo.">
+          <AppNumberInput v-model="produccion" :decimals="1" :min="0" suffix="m³" placeholder="0,0" />
         </AppFormField>
         <AppDatePicker v-model="fecha" />
         <AppChipInput v-model="chips" />

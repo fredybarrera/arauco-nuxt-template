@@ -99,7 +99,10 @@ el estado de error manualmente.
 
 **Formularios**: AppFormField (label + hint + error, envuelve cualquier control),
 AppInput (`icon`, `clearable`), AppTextarea (`maxlength` + `show-count`), AppSelect
-(`options: SelectOption[]`), AppButton (`type` default `'button'`, prop `loading`), AppCheck, AppRadio
+(`options: SelectOption[]`), AppCombobox (select con búsqueda; `multiple` acumula chips,
+`clearable`; su `v-model` es `ComboboxModel`), AppNumberInput (`number | null`, formato
+es-CL al desenfocar, `decimals`/`min`/`max`/`suffix`), AppButton (`type` default
+`'button'`, prop `loading`), AppCheck, AppRadio
 (uno por opción, con `value`), AppSwitch, AppChipInput, AppColorPicker, AppDatePicker
 (`Date | null`, popover por defecto; props `min`/`max`/`inline`), AppDropzone, AppRichEditor
 **Overlays**: AppModal (`size` sm/md/lg, `closable`, slot `#footer`), AppDrawer,
