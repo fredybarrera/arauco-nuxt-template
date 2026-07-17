@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { SidebarLink } from '~/types/sidenav'
+
 const sidenavCollapsed = useState('sidenavCollapsed', () => false)
 const { theme, toggleTheme } = useTheme()
 
@@ -6,10 +8,21 @@ function toggleSidenav() {
   sidenavCollapsed.value = !sidenavCollapsed.value
 }
 
-// Personalizar aquí la navegación del proyecto
-const links = [
+// Personalizar aquí la navegación del proyecto.
+// Los nodos con `children` se despliegan (hasta 3+ niveles); las hojas navegan con `to`.
+const links: SidebarLink[] = [
   { label: 'Inicio', to: '/', icon: 'home' },
-  { label: 'Componentes', to: '/componentes', icon: 'box' },
+  {
+    label: 'Componentes',
+    icon: 'box',
+    children: [
+      { label: 'Librería completa', to: '/componentes' },
+      {
+        label: 'Submenú 2',
+        children: [{ label: 'Submenú 3 · Perfil', to: '/perfil' }],
+      },
+    ],
+  },
 ]
 </script>
 
@@ -35,6 +48,16 @@ const links = [
       </template>
       <template #user-menu>
         <div class="p-2">
+          <a
+            href="/perfil"
+            target="_blank"
+            rel="noopener"
+            class="flex w-full items-center gap-2 rounded-(--radius-sm) px-3 py-2 text-[13px] text-ink-soft no-underline hover:bg-paper-2 hover:text-ink"
+          >
+            <AppIcon name="user" />
+            <span class="flex-1">Mis datos</span>
+            <AppIcon name="external" :size="12" class="opacity-60" />
+          </a>
           <button
             type="button"
             class="flex w-full items-center gap-2 rounded-(--radius-sm) px-3 py-2 text-[13px] text-ink-soft hover:bg-paper-2 hover:text-danger"

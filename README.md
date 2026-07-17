@@ -39,7 +39,7 @@ app/
 ├── plugins/theme.client.ts # Aplica el tema guardado (o el del sistema) al arrancar
 ├── error.vue               # Página de error 404/500 con estilo del DS
 ├── layouts/default.vue     # Shell: navbar + sidebar + ToastStack + ConfirmDialog
-├── pages/                  # index.vue y componentes.vue (demos)
+├── pages/                  # index.vue, componentes.vue y perfil.vue (demos)
 ├── types/                  # sidenav.ts, table.ts, form.ts, tree.ts, calendar.ts, files.ts
 └── utils/                  # sanitizeHtml.ts, format.ts (formatDate, formatNumber… es-CL)
 ```
@@ -50,7 +50,11 @@ app/
    `app/layouts/default.vue` (`AppNavbar` acepta `title`, `subtitle`, `tagline`, `user-name`
    y slots `#actions` / `#user-menu`).
 2. **Navegación**: el arreglo `links` en el layout alimenta `AppSidebar`
-   (`links`, `linksSecundarios`, `tituloSecundario`).
+   (`links`, `linksSecundarios`, `tituloSecundario`). Cada `SidebarLink` acepta
+   `children` anidados sin límite de profundidad: los nodos con hijos se despliegan
+   (se abren solos cuando la ruta activa está dentro) y las hojas navegan con `to`.
+   El menú de usuario del navbar incluye "Mis datos", que abre `/perfil` en una
+   ventana nueva (página demo con datos ficticios, lista para conectar a `useAuth`).
 3. **Colores/tokens**: bloque `@theme` en `app/assets/css/main.css`. Los componentes usan
    solo utilidades derivadas de tokens (`bg-calipso`, `text-ink`, `border-line`…), así que
    cambiar la paleta ahí re-tematiza toda la app.

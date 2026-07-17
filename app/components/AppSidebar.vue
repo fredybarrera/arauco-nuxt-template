@@ -1,9 +1,5 @@
 <script setup lang="ts">
-export interface SidebarLink {
-  label: string
-  to: string
-  icon: string
-}
+import type { SidebarLink } from '~/types/sidenav'
 
 withDefaults(
   defineProps<{
@@ -26,17 +22,12 @@ withDefaults(
     :class="collapsed ? 'w-(--spacing-side-w-collapsed)' : 'w-(--spacing-side-w)'"
   >
     <nav class="flex flex-col gap-1">
-      <NuxtLink
-        v-for="link in links"
-        :key="link.label"
-        :to="link.to"
-        class="flex items-center gap-2.5 rounded-(--radius-md) border-l-2 border-transparent px-2.5 py-2 text-[13.5px] text-[#ffffff] hover:bg-white/10 hover:text-white"
-        active-class="bg-gradient-to-r from-calipso/20 to-transparent border-l-calipso! text-white font-semibold [&_.icon]:stroke-calipso"
-        :class="{ 'justify-center px-0': collapsed }"
-      >
-        <AppIcon :name="link.icon" />
-        <span v-if="!collapsed">{{ link.label }}</span>
-      </NuxtLink>
+      <AppSidebarItem
+        v-for="(link, i) in links"
+        :key="link.to ?? `${link.label}-${i}`"
+        :link="link"
+        :collapsed="collapsed"
+      />
 
       <template v-if="linksSecundarios.length">
         <div class="my-3 border-t border-white/10" />
@@ -46,17 +37,12 @@ withDefaults(
         >
           {{ tituloSecundario }}
         </span>
-        <NuxtLink
-          v-for="link in linksSecundarios"
-          :key="link.label"
-          :to="link.to"
-          class="flex items-center gap-2.5 rounded-(--radius-md) border-l-2 border-transparent px-2.5 py-2 text-[13.5px] text-[#ffffff] hover:bg-white/10 hover:text-white"
-          active-class="bg-gradient-to-r from-calipso/20 to-transparent border-l-calipso! text-white font-semibold [&_.icon]:stroke-calipso"
-          :class="{ 'justify-center px-0': collapsed }"
-        >
-          <AppIcon :name="link.icon" />
-          <span v-if="!collapsed">{{ link.label }}</span>
-        </NuxtLink>
+        <AppSidebarItem
+          v-for="(link, i) in linksSecundarios"
+          :key="link.to ?? `${link.label}-${i}`"
+          :link="link"
+          :collapsed="collapsed"
+        />
       </template>
     </nav>
   </aside>
