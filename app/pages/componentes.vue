@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DataTableColumn, FilterDef } from '~/types/table'
-import type { ComboboxModel, SelectOption } from '~/types/form'
+import type { ComboboxModel, ComboboxValue, SelectOption } from '~/types/form'
 import type { TreeNode } from '~/types/tree'
 
 const { showToast } = useToast()
@@ -30,6 +30,7 @@ const responsables: SelectOption[] = [
   { label: 'Carla Muñoz (licencia)', value: 'cmunoz', disabled: true },
   { label: 'Jorge Riquelme', value: 'jriquelme' },
 ]
+const grupoAsignados = ref<ComboboxValue[]>(['lsoto', 'rdiaz'])
 
 const nodoSeleccionado = ref<string | null>('mdf-l1')
 const jerarquia: TreeNode[] = [
@@ -282,6 +283,19 @@ async function probarConfirm() {
             { label: 'Cerrado', percent: 15, color: 'var(--color-rojo)', icon: 'close' },
           ]"
         />
+        <div>
+          <p class="mb-2 text-[13px] font-semibold text-ink">Asignación (AppTransferList)</p>
+          <AppTransferList
+            v-model="grupoAsignados"
+            :options="responsables"
+            searchable
+            title-available="Usuarios disponibles"
+            title-assigned="En el grupo"
+          />
+          <p class="mt-2 font-mono text-[12px] text-ink-soft">
+            Asignados: {{ grupoAsignados.join(', ') || '—' }}
+          </p>
+        </div>
       </div>
     </section>
 
