@@ -1,0 +1,288 @@
+<script setup lang="ts">
+import type { DataTableColumn, FilterDef } from '~/types/table'
+import type { SelectOption } from '~/types/form'
+
+const { showToast } = useToast()
+const { confirmar } = useConfirm()
+
+const nombre = ref('')
+const correo = ref('correo-invalido')
+const area = ref<string | number>('')
+const descripcion = ref('')
+const areaOptions: SelectOption[] = [
+  { label: 'Forestal', value: 'Forestal' },
+  { label: 'Celulosa', value: 'Celulosa' },
+  { label: 'Maderas', value: 'Maderas' }
+]
+const errorCorreo = computed(() =>
+  correo.value && !correo.value.includes('@') ? 'Ingresa un correo válido.' : undefined
+)
+
+const modalOpen = ref(false)
+const drawerOpen = ref(false)
+const botonCargando = ref(false)
+const progreso = ref(64)
+const paginaDemo = ref(3)
+
+function simularCarga() {
+  botonCargando.value = true
+  setTimeout(() => { botonCargando.value = false }, 1500)
+}
+
+const check = ref(true)
+const switchOn = ref(false)
+const radio = ref('a')
+const chips = ref(['nuxt', 'tailwind'])
+const color = ref('#3fae9a')
+const fecha = ref<Date | null>(null)
+const segmento = ref('lista')
+const tab = ref('uno')
+const rating = ref(4)
+
+const columns: DataTableColumn[] = [
+  { key: 'nombre', label: 'Nombre', sortable: true },
+  { key: 'area', label: 'Área', sortable: true },
+  { key: 'estado', label: 'Estado' }
+]
+const rows = [
+  { nombre: 'Proyecto Alfa', area: 'Forestal', estado: 'Activo' },
+  { nombre: 'Proyecto Beta', area: 'Celulosa', estado: 'Pausado' },
+  { nombre: 'Proyecto Gamma', area: 'Maderas', estado: 'Activo' }
+]
+const filters: FilterDef[] = [
+  {
+    key: 'area',
+    label: 'Área',
+    placeholder: 'Filtrar por área',
+    options: [
+      { label: 'Forestal', value: 'Forestal' },
+      { label: 'Celulosa', value: 'Celulosa' },
+      { label: 'Maderas', value: 'Maderas' }
+    ]
+  }
+]
+
+async function probarConfirm() {
+  const ok = await confirmar({
+    title: 'Confirmar acción',
+    message: '¿Deseas continuar con la acción de ejemplo?'
+  })
+  showToast(ok ? 'Confirmado' : 'Cancelado', ok ? 'success' : 'warning')
+}
+</script>
+
+<template>
+  <div class="flex flex-col gap-8">
+    <header>
+      <h1 class="font-display text-2xl font-bold tracking-wide uppercase">Librería de componentes</h1>
+      <p class="mt-1 text-sm text-ink-soft">Muestrario de los componentes del design system Planos.</p>
+    </header>
+
+    <!-- Botones y badges -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Botones y badges</h2>
+      <div class="flex flex-wrap items-center gap-2">
+        <AppButton variant="primary">Primario</AppButton>
+        <AppButton variant="secondary">Secundario</AppButton>
+        <AppButton variant="outline">Outline</AppButton>
+        <AppButton variant="ghost">Ghost</AppButton>
+        <AppButton variant="danger">Peligro</AppButton>
+        <AppButton variant="primary" size="sm">Pequeño</AppButton>
+        <AppButton variant="primary" disabled>Deshabilitado</AppButton>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <AppBadge>Neutral</AppBadge>
+        <AppBadge tone="success">Éxito</AppBadge>
+        <AppBadge tone="warning">Alerta</AppBadge>
+        <AppBadge tone="danger">Peligro</AppBadge>
+        <AppBadge tone="info">Info</AppBadge>
+      </div>
+    </section>
+
+    <!-- Formularios -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Formularios</h2>
+      <div class="grid gap-5 md:grid-cols-2">
+        <AppFormField label="Nombre del proyecto" hint="Como aparecerá en los reportes." required>
+          <AppInput v-model="nombre" icon="search" clearable placeholder="Escribe algo…" />
+        </AppFormField>
+        <AppFormField label="Correo de contacto" :error="errorCorreo" required>
+          <AppInput v-model="correo" type="email" placeholder="nombre@arauco.cl" />
+        </AppFormField>
+        <AppFormField label="Área">
+          <AppSelect v-model="area" :options="areaOptions" placeholder="Selecciona un área…" />
+        </AppFormField>
+        <AppFormField label="Descripción" hint="Máximo 200 caracteres.">
+          <AppTextarea v-model="descripcion" :rows="3" :maxlength="200" show-count placeholder="Describe el proyecto…" />
+        </AppFormField>
+        <AppDatePicker v-model="fecha" />
+        <AppChipInput v-model="chips" />
+        <AppColorPicker v-model="color" />
+        <div class="flex flex-wrap items-center gap-6">
+          <label class="flex cursor-pointer items-center gap-2 text-sm">
+            <AppCheck v-model="check" /> Checkbox
+          </label>
+          <label class="flex cursor-pointer items-center gap-2 text-sm">
+            <AppSwitch v-model="switchOn" /> Switch
+          </label>
+          <AppRating v-model="rating" />
+        </div>
+        <div class="flex items-center gap-6">
+          <label class="flex cursor-pointer items-center gap-2 text-sm">
+            <AppRadio v-model="radio" value="a" /> Opción A
+          </label>
+          <label class="flex cursor-pointer items-center gap-2 text-sm">
+            <AppRadio v-model="radio" value="b" /> Opción B
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organización -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Organización</h2>
+      <div class="flex flex-col gap-5">
+        <SegmentedControl
+          v-model="segmento"
+          :options="[{ label: 'Lista', value: 'lista' }, { label: 'Tablero', value: 'tablero' }, { label: 'Calendario', value: 'calendario' }]"
+        />
+        <AppTabs
+          v-model="tab"
+          :tabs="[{ key: 'uno', label: 'Resumen' }, { key: 'dos', label: 'Detalle', count: 3 }]"
+        />
+        <AppWizard
+          :steps="[{ label: 'Datos' }, { label: 'Revisión' }, { label: 'Confirmación' }]"
+          @finish="showToast('Wizard finalizado', 'success')"
+        >
+          <template #panel-0>
+            <p class="text-sm text-ink-soft">Contenido del paso 1.</p>
+          </template>
+          <template #panel-1>
+            <p class="text-sm text-ink-soft">Contenido del paso 2.</p>
+          </template>
+          <template #panel-2>
+            <p class="text-sm text-ink-soft">Contenido del paso 3.</p>
+          </template>
+        </AppWizard>
+        <AppAccordion
+          :items="[
+            { question: '¿Qué es esta plantilla?', answer: 'Una base limpia del design system Planos para nuevos proyectos.' },
+            { question: '¿Cómo cambio los colores?', answer: 'Edita el bloque @theme en app/assets/css/main.css.' }
+          ]"
+        />
+        <AppTimeline
+          :events="[
+            { time: '09:00', title: 'Proyecto creado', desc: 'Se inicializó la plantilla base.' },
+            { time: '10:30', title: 'Tokens ajustados', desc: 'Paleta corporativa aplicada.', tone: 'warning' }
+          ]"
+        />
+        <StatusBar
+          label="Distribución por estado"
+          :segments="[
+            { label: 'Activo', percent: 55, color: 'var(--color-verde)', icon: 'check' },
+            { label: 'Pausado', percent: 30, color: 'var(--color-amarillo)', icon: 'clock' },
+            { label: 'Cerrado', percent: 15, color: 'var(--color-rojo)', icon: 'close' }
+          ]"
+        />
+      </div>
+    </section>
+
+    <!-- Tabla -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Tabla con filtros</h2>
+      <FilteredTable
+        :columns="columns"
+        :rows="rows"
+        :filters="filters"
+        :search-keys="['nombre', 'area']"
+        search-placeholder="Buscar proyecto…"
+      />
+    </section>
+
+    <!-- Gráficos -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Gráficos y KPIs</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <KpiTile label="Ejemplo KPI" value="87" unit="%" trend="up" trend-label="+4% vs mes anterior" />
+        <TrendSparkline :data="[4, 6, 5, 8, 9, 7, 11]" label="Tendencia" />
+        <BarChart
+          :data="[{ label: 'Forestal', value: 42 }, { label: 'Celulosa', value: 31 }, { label: 'Maderas', value: 18 }]"
+          label="Por área"
+        />
+      </div>
+    </section>
+
+    <!-- Feedback -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Feedback</h2>
+      <div class="flex flex-col gap-4">
+        <AppAlert tone="info" title="Alerta informativa">Contenido de la alerta con tono informativo.</AppAlert>
+        <AppAlert tone="warning" title="Atención" dismissible>Alerta descartable de advertencia.</AppAlert>
+        <div class="flex flex-wrap gap-2">
+          <AppButton variant="primary" @click="showToast('Toast de éxito', 'success')">Toast éxito</AppButton>
+          <AppButton variant="danger" @click="showToast('Toast de error', 'error')">Toast error</AppButton>
+          <AppButton variant="outline" @click="probarConfirm">Confirm dialog</AppButton>
+          <AppButton variant="secondary" @click="modalOpen = true">Abrir modal</AppButton>
+          <AppButton variant="outline" @click="drawerOpen = true">Abrir drawer</AppButton>
+          <AppButton variant="primary" :loading="botonCargando" @click="simularCarga">Guardar (loading)</AppButton>
+        </div>
+        <div class="flex items-center gap-6">
+          <span class="tooltip" data-tooltip="Tooltip CSS-only" data-placement="top">
+            <AppBadge tone="info">Hover: tooltip</AppBadge>
+          </span>
+          <AppAvatarGroup>
+            <AppAvatar initials="AP" size="sm" color="var(--color-calipso)" />
+            <AppAvatar initials="LS" size="sm" color="var(--color-verde)" />
+            <AppAvatar initials="RD" size="sm" color="var(--color-naranja)" />
+          </AppAvatarGroup>
+        </div>
+        <div class="flex flex-col gap-2">
+          <AppSkeleton width="60%" />
+          <AppSkeleton width="40%" />
+        </div>
+        <AppEmptyState icon="box" title="Sin resultados" description="Ejemplo de estado vacío." />
+      </div>
+    </section>
+
+    <!-- Indicadores y navegación -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Indicadores y navegación</h2>
+      <div class="flex flex-col gap-5">
+        <AppBreadcrumbs
+          :items="[
+            { label: 'Inicio', to: '/' },
+            { label: 'Componentes', to: '/componentes' },
+            { label: 'Indicadores' }
+          ]"
+        />
+        <div class="flex items-center gap-4 text-calipso-deep">
+          <AppSpinner :size="16" />
+          <AppSpinner :size="24" />
+          <span class="text-ink-soft"><AppSpinner :size="20" /></span>
+        </div>
+        <AppProgress label="Avance del proyecto" :value="progreso" show-value />
+        <AppProgress label="Cargando (indeterminado)" tone="warning" />
+        <AppPagination v-model="paginaDemo" :total-pages="12" />
+      </div>
+    </section>
+
+    <!-- Overlays -->
+    <AppModal v-model:open="modalOpen" title="Modal de ejemplo" size="md">
+      <p class="m-0 text-sm text-ink-soft">
+        Modal genérico con focus trap, bloqueo de scroll y cierre con Escape o clic fuera.
+        Usa <code>size</code> (sm/md/lg) y el slot <code>#footer</code> para acciones.
+      </p>
+      <template #footer>
+        <AppButton variant="outline" size="sm" @click="modalOpen = false">Cancelar</AppButton>
+        <AppButton variant="primary" size="sm" @click="modalOpen = false; showToast('Guardado desde el modal')">Guardar</AppButton>
+      </template>
+    </AppModal>
+
+    <AppDrawer v-model:open="drawerOpen" title="Drawer de ejemplo">
+      <p class="m-0 text-sm text-ink-soft">Panel lateral con focus trap y cierre con Escape.</p>
+      <template #footer>
+        <AppButton variant="outline" size="sm" @click="drawerOpen = false">Cerrar</AppButton>
+      </template>
+    </AppDrawer>
+  </div>
+</template>
