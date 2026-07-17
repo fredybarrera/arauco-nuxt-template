@@ -119,46 +119,86 @@ así el label queda conectado y el borde de error se activa solo:
 Los controles también funcionan sueltos (sin wrapper) y aceptan `invalid` para forzar
 el estado de error manualmente.
 
-## Componentes incluidos
+## Catálogo de componentes
 
-**Formularios**: AppFormField (label + hint + error, envuelve cualquier control),
-AppInput (`icon`, `clearable`), AppTextarea (`maxlength` + `show-count`), AppSelect
-(`options: SelectOption[]`), AppCombobox (select con búsqueda; `multiple` acumula chips,
-`clearable`; su `v-model` es `ComboboxModel`), AppNumberInput (`number | null`, formato
-es-CL al desenfocar, `decimals`/`min`/`max`/`suffix`), AppButton (`type` default
-`'button'`, prop `loading`), AppCheck, AppRadio
-(uno por opción, con `value`), AppSwitch, AppChipInput, AppColorPicker, AppDatePicker
-(`Date | null`, popover por defecto; props `min`/`max`/`inline`), AppDropzone, AppRichEditor
-**Overlays**: AppModal (`size` sm/md/lg, `closable`, slot `#footer`; lleva la cartela),
-AppDrawer (cartela de borde),
-AppPopover (primitivo con detección de bordes: flip vertical y alineación automática;
-slots `#trigger="{ open }"` y default `="{ close }"`, prop `panel-class`), AppDropdown +
-DropdownItem, AppTooltip (o clase `.tooltip`). Modal, drawer y confirm comparten
-`useFocusTrap`: focus trap, bloqueo de scroll, Escape y retorno de foco.
-**Visualización**: AppIcon + IconSprite, AppBadge (`tone` + slot), AppAlert, AppCard,
-AppEmptyState, AppSkeleton (`variant`, `width`), AppAvatar (`initials`), AppAvatarGroup
-**Organización**: AppAccordion, AppRating, SegmentedControl, AppTabs, AppTimeline,
-AppWizard (slots `#panel-0…n`), StatusBar, AppTransferList (asignación entre dos listas:
-`v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve
-directo, "mover todos" respeta el filtro), AppTree (jerarquías: `nodes: TreeNode[]`,
-`v-model` clave seleccionada, `v-model:expanded`, `default-expand-all`, evento `@select`,
-slot `#label="{ node, depth }"`)
-**Tablas**: DataTable, FilteredTable (con búsqueda, filtros y export), AppPagination
-(standalone: `v-model` página + `total-pages`)
-**Indicadores**: AppSpinner (hereda color), AppProgress (`value` 0–100 o indeterminado,
-`tone`, `show-value`), AppBreadcrumbs (`items: { label, to? }[]`)
-**Gráficos**: BarChart, TrendSparkline, KpiTile (`size` sm/md/lg; `trend` up/down es solo
-la flecha, `sentiment` positive/negative/neutral controla el color por separado —por defecto
-se deriva de `trend`)
-**Hero**: AppHero (`size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` para el nivel
-de encabezado, slot `#actions` y slot default para contenido extra, p. ej. fila de KPIs)
-**Calendario**: AppCalendar (vista mensual: `events: CalendarEvent[]` con `tone`,
-`v-model:month`, botón Hoy, "+n más" tras `max-per-day`, eventos `@select-day` /
-`@select-event`)
-**Archivos**: AppDropzone + AppFileList (`files: FileItem[]` con tamaño formateado,
-progreso, error y enlace; evento `@remove`)
-**Feedback**: ToastStack + useToast, ConfirmDialog + useConfirm
-**Shell**: AppNavbar, AppSidebar, SidenavItem, SkeletonLoader… (genéricos, configurables por props/slots)
+60 componentes, auto-importados (sin `import`). Los `App*` son la API pública del DS; el resto
+son piezas auxiliares o de composición.
+
+### Shell y layout
+
+| Componente | Notas |
+| --- | --- |
+| `AppNavbar` | Barra superior oscura; props `title`, `subtitle`, `tagline`, `user-name`, slots `#actions` / `#user-menu`. Mark de tablones (SVG inline) |
+| `AppSidebar` / `AppSidebarItem` | Navegación lateral; `links`, `linksSecundarios`, `tituloSecundario`. `children` anidados sin límite; se abren solos si la ruta activa está dentro |
+| `AppHero` | Cabecera con cartela; `size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` (nivel de encabezado), slot `#actions` y default (p. ej. fila de KPIs) |
+| `SidenavItem` / `SkeletonLoader` | Piezas auxiliares del shell |
+
+### Formularios e inputs
+
+| Componente | Notas |
+| --- | --- |
+| `AppFormField` | Envuelve cualquier control: label + hint + error; provee `id` y estado de error vía `useFormField` |
+| `AppInput` | `icon`, `clearable` |
+| `AppTextarea` | `maxlength` + `show-count` |
+| `AppNumberInput` | `number \| null`; formato es-CL al desenfocar; `decimals`/`min`/`max`/`suffix` |
+| `AppSelect` | `options: SelectOption[]` |
+| `AppCombobox` | Select con búsqueda; `multiple` acumula chips, `clearable`; `v-model` es `ComboboxModel` |
+| `AppCheck` / `AppRadio` / `AppSwitch` | Radio: uno por opción con `value` |
+| `AppChipInput` | Entrada de tags/chips |
+| `AppColorPicker` | Selector de color |
+| `AppDatePicker` | `Date \| null`, popover por defecto; `min`/`max`/`inline` |
+| `AppRating` | Valoración por estrellas |
+| `AppDropzone` | Zona de arrastrar y soltar (combina con `AppFileList`) |
+| `AppRichEditor` | Editor enriquecido (usa `sanitizeHtml`) |
+
+> Los controles aceptan `invalid` para forzar el estado de error sin `AppFormField`.
+
+### Overlays y feedback
+
+| Componente | Notas |
+| --- | --- |
+| `AppModal` | `size` sm/md/lg, `closable`, slot `#footer`; lleva cartela |
+| `AppDrawer` | Panel lateral; cartela de borde (`.cartela-left`) |
+| `AppPopover` | Primitivo con detección de bordes (flip/alineación auto); slots `#trigger="{ open }"` y default `="{ close }"`, prop `panel-class` |
+| `AppDropdown` / `DropdownItem` | Menú desplegable |
+| `AppTooltip` | Tooltip (o clase `.tooltip`) |
+| `ConfirmDialog` | Confirmación (ver `useConfirm`) |
+| `AppAlert` | Mensaje en línea |
+| `ToastStack` / `ToastNotification` | Toasts (ver `useToast`) |
+| `AppEmptyState` | Estado vacío |
+
+> `AppModal`, `AppDrawer` y `ConfirmDialog` comparten `useFocusTrap`: focus trap, bloqueo de
+> scroll, Escape y retorno de foco.
+
+### Datos y organización
+
+| Componente | Notas |
+| --- | --- |
+| `AppCard` | Tarjeta contenedora (cartela) |
+| `AppBadge` | `tone` + slot |
+| `AppAvatar` / `AppAvatarGroup` | `initials`; grupo apilado |
+| `DataTable` / `FilteredTable` | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`) |
+| `AppPagination` | Standalone: `v-model` página + `total-pages` |
+| `AppTree` / `AppTreeItem` | `nodes: TreeNode[]`, `v-model` clave, `v-model:expanded`, `default-expand-all`, `@select`, slot `#label="{ node, depth }"` |
+| `AppTransferList` | Asignación entre dos listas; `v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve, "mover todos" respeta filtro |
+| `AppTimeline` | Línea de tiempo |
+| `AppCalendar` | Vista mensual; `events: CalendarEvent[]` con `tone`, `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, `@select-day` / `@select-event` |
+| `AppFileList` | `files: FileItem[]` con tamaño, progreso, error y enlace; `@remove` |
+| `AppAccordion` / `AppTabs` | Contenido colapsable / pestañas |
+| `AppWizard` | Asistente por pasos; slots `#panel-0…n` |
+| `SegmentedControl` / `StatusBar` | Toggle de opciones / barra de estado |
+
+### Indicadores y visualización
+
+| Componente | Notas |
+| --- | --- |
+| `KpiTile` | `size` sm/md/lg; `trend` up/down es la flecha, `sentiment` positive/negative/neutral el color (por defecto se deriva de `trend`) |
+| `BarChart` / `TrendSparkline` | Gráfico de barras / sparkline |
+| `AppProgress` | `value` 0–100 o indeterminado, `tone`, `show-value` |
+| `AppSpinner` | Hereda el color |
+| `AppSkeleton` | `variant`, `width` |
+| `AppBreadcrumbs` | `items: { label, to? }[]` |
+| `AppIcon` / `IconSprite` | Sistema de iconos (sprite SVG) |
 
 ## Cómo mantener la base sincronizada entre proyectos
 
