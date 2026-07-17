@@ -400,7 +400,15 @@ async function probarConfirm() {
         />
       </div>
       <div class="grid gap-4 md:grid-cols-3">
-        <KpiTile label="Ejemplo KPI" value="87" unit="%" trend="up" trend-label="+4% vs mes anterior" />
+        <!-- Dirección ≠ sentido: la flecha baja pero es positivo (menos mermas es mejor) -->
+        <KpiTile
+          label="Mermas de proceso"
+          value="3.2"
+          unit="%"
+          trend="down"
+          sentiment="positive"
+          trend-label="−8% vs mes anterior · mejor"
+        />
         <TrendSparkline :data="[4, 6, 5, 8, 9, 7, 11]" label="Tendencia" />
         <BarChart
           :data="[

@@ -17,7 +17,7 @@ useFocusTrap(panel, open, { onEscape: () => (open.value = false) })
         ref="panel"
         role="dialog"
         aria-modal="true"
-        class="w-[400px] max-w-[88vw] h-full bg-card shadow-md flex flex-col transition-transform duration-[280ms]"
+        class="cartela-left w-[400px] max-w-[88vw] h-full bg-card border-l border-line shadow-md flex flex-col transition-transform duration-[280ms]"
         :class="open ? 'translate-x-0' : 'translate-x-full'"
       >
         <div class="flex items-center justify-between py-[18px] px-5 border-b border-line shrink-0">

@@ -131,6 +131,30 @@
   src: url('../fonts/roboto-v51-latin/roboto-v51-latin-900italic.woff2') format('woff2');
 }
 
+/* IBM Plex Mono — auto-hospedada, rol de "anotación técnica" (eyebrows, labels,
+   datos, ejes de gráficos, timestamps). Subconjunto latin, pesos 400/500/600. */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-mono-v20-latin/ibm-plex-mono-v20-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-mono-v20-latin/ibm-plex-mono-v20-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/ibm-plex-mono-v20-latin/ibm-plex-mono-v20-latin-600.woff2') format('woff2');
+}
+
 /*
  * Tokens extraídos de arauco-ds-planos.html (:root) — ver ARCHITECTURE.md §5.
  * No hardcodear colores/fuentes en componentes: usar estas utilidades Tailwind.
@@ -149,6 +173,9 @@
   --color-corteza: #696158;
   --color-corteza-dark: #3a352f;
   --color-shell: #33302b;
+  /* Texto sobre la barra oscura (navbar): siempre claro, independiente del tema. */
+  --color-shell-ink: #f3ecdc;
+  --color-shell-ink-strong: #ffffff;
   --color-madera: #dfd1a7;
   --color-verde: #8a9a1e;
   --color-verde-deep: #5f6a15;
@@ -172,8 +199,8 @@
 
   --font-display: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
   --font-body: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
-  /* Mono desactivada por decisión de diseño: usa la fuente de interfaz en toda la app */
-  --font-mono: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  /* Mono técnica para el rol de anotación (eyebrows, labels, datos, ejes). */
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Roboto Mono', 'Segoe UI', monospace;
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -269,9 +296,22 @@ body {
     @apply outline-danger border-danger;
   }
 
+  /*
+   * Cartela: la firma de forma del DS — esquina cortada (radio asimétrico) +
+   * marcas de escuadra en las esquinas opuestas. Va en superficies CONTENEDORAS
+   * (Hero, Card/.frame). No usar en controles atómicos (KPI, inputs, badges).
+   * Requiere que la superficie NO tenga overflow-hidden, o las escuadras se recortan.
+   */
+  .cartela,
   .frame {
-    @apply relative border border-line rounded-lg bg-card p-8;
+    position: relative;
+    border-radius: 0 var(--radius-lg) 0 var(--radius-lg);
   }
+  .frame {
+    @apply border border-line bg-card p-8;
+  }
+  .cartela::before,
+  .cartela::after,
   .frame::before,
   .frame::after {
     content: '';
@@ -280,16 +320,46 @@ body {
     height: 9px;
     border: 1.4px solid var(--color-line-strong);
   }
+  .cartela::before,
   .frame::before {
     top: -1px;
     left: -1px;
     border-right: none;
     border-bottom: none;
   }
+  .cartela::after,
   .frame::after {
     bottom: -1px;
     right: -1px;
     border-left: none;
+    border-top: none;
+  }
+
+  /*
+   * Variante para paneles anclados a un borde (drawer): la esquina cortada
+   * diagonal quedaría fuera de pantalla, así que marcamos las dos esquinas
+   * libres del borde interior (izquierdo) con escuadras. Sin radio: el panel
+   * se mantiene recto y estructural.
+   */
+  .cartela-left {
+    position: relative;
+  }
+  .cartela-left::before,
+  .cartela-left::after {
+    content: '';
+    position: absolute;
+    left: -1px;
+    width: 9px;
+    height: 9px;
+    border: 1.4px solid var(--color-line-strong);
+    border-right: none;
+  }
+  .cartela-left::before {
+    top: -1px;
+    border-bottom: none;
+  }
+  .cartela-left::after {
+    bottom: -1px;
     border-top: none;
   }
 

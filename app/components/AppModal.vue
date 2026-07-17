@@ -43,7 +43,7 @@ useFocusTrap(panel, open, { onEscape: cerrar })
         ref="panel"
         role="dialog"
         aria-modal="true"
-        class="flex max-h-[88vh] w-full flex-col rounded-(--radius-lg) border border-line bg-card shadow-md transition-transform duration-[200ms]"
+        class="cartela flex max-h-[88vh] w-full flex-col border border-line bg-card shadow-md transition-transform duration-[200ms]"
         :class="[sizeClasses[size], open ? 'scale-100' : 'scale-95']"
       >
         <div

@@ -10,7 +10,8 @@ lista para iniciar un proyecto nuevo.
 - **Tailwind CSS v4** (tokens vía `@theme` en CSS, sin `tailwind.config`)
 - **ESLint** (`@nuxt/eslint`) + **Prettier** (formato; `eslint-config-prettier` evita conflictos)
 - **Modo oscuro** con clase `.dark` en `<html>` (`useTheme` + persistencia en localStorage)
-- Fuente **Roboto** auto-hospedada (sin CDN)
+- Fuentes auto-hospedadas (sin CDN): **Roboto** (UI y títulos) + **IBM Plex Mono**
+  (rol de anotación técnica: eyebrows, labels, datos, ejes de gráficos)
 - Sin Pinia (usar `useState()`) y sin Axios (usar `$fetch` / `useFetch`)
 
 ## Uso
@@ -32,8 +33,8 @@ cuando empieces tu proyecto real.
 ```
 app/
 ├── assets/
-│   ├── css/main.css        # Tokens @theme (colores, fuentes, radios, sombras) + clases .input, .frame, .tooltip, .skeleton
-│   └── fonts/              # Roboto woff2 auto-hospedada
+│   ├── css/main.css        # Tokens @theme + clases .input, .frame, .cartela, .cartela-left, .tooltip, .skeleton
+│   └── fonts/              # Roboto + IBM Plex Mono (woff2 auto-hospedadas)
 ├── components/             # Design system Planos (auto-importados)
 ├── composables/            # useToast, useConfirm, useScrollSpy, useFormField, useFocusTrap, useTheme
 ├── plugins/theme.client.ts # Aplica el tema guardado (o el del sistema) al arrancar
@@ -66,6 +67,25 @@ app/
    `arauco-project/frontend`: `app/plugins/msal.client.ts`, `app/plugins/api.client.ts`,
    `app/middleware/auth.global.ts`, `app/composables/useAuth.ts` y la sección `runtimeConfig`
    de `nuxt.config.ts`.
+
+## Identidad visual (Planos DS)
+
+El sistema tiene concepto de **plano técnico**. Tres piezas cargan esa personalidad;
+respétalas al crear componentes nuevos:
+
+- **Cartela** (firma de forma): esquina cortada (radio asimétrico) + escuadras en las
+  esquinas opuestas. Clase `.cartela` en `main.css`, **solo en superficies contenedoras**
+  (Hero, Card/`.frame`, Modal) — no en controles atómicos (KPI, inputs, badges), que se
+  quedan con radio simple. Requiere que la superficie **no** tenga `overflow-hidden`
+  (recorta las escuadras). Para paneles anclados a un borde (Drawer) usa `.cartela-left`,
+  que marca solo el canto interior.
+- **Rol mono**: eyebrows, labels, datos y ejes usan `font-mono` (→ IBM Plex Mono). No lo
+  uses para texto corrido; sí para todo lo que sea "anotación" o cifra.
+- **Mark del navbar**: SVG inline de tablones apilados en `AppNavbar.vue`. Cámbialo ahí si
+  tu proyecto necesita otro símbolo.
+
+La barra superior usa tokens de shell (`--color-shell`, `--color-shell-ink`,
+`--color-shell-ink-strong`), no colores hardcodeados.
 
 ## APIs reales de los composables
 
@@ -109,7 +129,8 @@ es-CL al desenfocar, `decimals`/`min`/`max`/`suffix`), AppButton (`type` default
 `'button'`, prop `loading`), AppCheck, AppRadio
 (uno por opción, con `value`), AppSwitch, AppChipInput, AppColorPicker, AppDatePicker
 (`Date | null`, popover por defecto; props `min`/`max`/`inline`), AppDropzone, AppRichEditor
-**Overlays**: AppModal (`size` sm/md/lg, `closable`, slot `#footer`), AppDrawer,
+**Overlays**: AppModal (`size` sm/md/lg, `closable`, slot `#footer`; lleva la cartela),
+AppDrawer (cartela de borde),
 AppPopover (primitivo con detección de bordes: flip vertical y alineación automática;
 slots `#trigger="{ open }"` y default `="{ close }"`, prop `panel-class`), AppDropdown +
 DropdownItem, AppTooltip (o clase `.tooltip`). Modal, drawer y confirm comparten
@@ -126,7 +147,9 @@ slot `#label="{ node, depth }"`)
 (standalone: `v-model` página + `total-pages`)
 **Indicadores**: AppSpinner (hereda color), AppProgress (`value` 0–100 o indeterminado,
 `tone`, `show-value`), AppBreadcrumbs (`items: { label, to? }[]`)
-**Gráficos**: BarChart, TrendSparkline, KpiTile (`size` sm/md/lg)
+**Gráficos**: BarChart, TrendSparkline, KpiTile (`size` sm/md/lg; `trend` up/down es solo
+la flecha, `sentiment` positive/negative/neutral controla el color por separado —por defecto
+se deriva de `trend`)
 **Hero**: AppHero (`size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` para el nivel
 de encabezado, slot `#actions` y slot default para contenido extra, p. ej. fila de KPIs)
 **Calendario**: AppCalendar (vista mensual: `events: CalendarEvent[]` con `tone`,

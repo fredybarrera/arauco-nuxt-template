@@ -17,7 +17,13 @@ const { showToast } = useToast()
         <KpiTile label="Tokens de color" value="14" trend="up" trend-label="paleta corporativa" />
         <KpiTile label="Componentes" value="60" trend="up" trend-label="auto-importados" />
         <KpiTile label="Composables" value="7" trend="up" trend-label="toast · confirm · theme…" />
-        <KpiTile label="Dependencias" value="5" trend="down" trend-label="sin Pinia ni Axios" />
+        <KpiTile
+          label="Dependencias"
+          value="5"
+          trend="down"
+          sentiment="positive"
+          trend-label="sin Pinia ni Axios"
+        />
       </div>
     </AppHero>
 

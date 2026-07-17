@@ -1,20 +1,37 @@
 <script setup lang="ts">
 type Size = 'sm' | 'md' | 'lg'
+type Sentiment = 'positive' | 'negative' | 'neutral'
 
 const props = withDefaults(
   defineProps<{
     label: string
     value: string
     unit?: string
+    /** Dirección de la flecha (up/down). Es solo la dirección, no el color. */
     trend: 'up' | 'down'
     trendLabel: string
+    /**
+     * Color del indicador, independiente de la flecha. Por defecto se deriva de
+     * `trend` (up→positive, down→negative); pásalo cuando dirección y sentido no
+     * coincidan, p. ej. mermas o dependencias que bajan (flecha abajo, positivo).
+     */
+    sentiment?: Sentiment
     size?: Size
   }>(),
-  { unit: undefined, size: 'md' }
+  { unit: undefined, sentiment: undefined, size: 'md' }
 )
 
-const stripeClass = computed(() => (props.trend === 'up' ? 'before:bg-success-ink' : 'before:bg-rojo-deep'))
-const trendClass = computed(() => (props.trend === 'up' ? 'text-success-ink' : 'text-rojo-deep'))
+const sentiment = computed<Sentiment>(
+  () => props.sentiment ?? (props.trend === 'up' ? 'positive' : 'negative')
+)
+
+const toneClasses: Record<Sentiment, { stripe: string; text: string }> = {
+  positive: { stripe: 'before:bg-success-ink', text: 'text-success-ink' },
+  negative: { stripe: 'before:bg-rojo-deep', text: 'text-rojo-deep' },
+  neutral: { stripe: 'before:bg-line-strong', text: 'text-ink-soft' },
+}
+const stripeClass = computed(() => toneClasses[sentiment.value].stripe)
+const trendClass = computed(() => toneClasses[sentiment.value].text)
 
 const sizeClasses: Record<
   Size,
@@ -59,7 +76,7 @@ const s = computed(() => sizeClasses[props.size])
     ]"
   >
     <div class="text-ink-soft" :class="s.label">{{ label }}</div>
-    <div class="font-bold font-display text-ink" :class="s.value">
+    <div class="font-bold font-display text-ink tabular-nums" :class="s.value">
       {{ value }}<span v-if="unit" class="text-ink-soft font-normal ml-0.5" :class="s.unit">{{ unit }}</span>
     </div>
     <div :class="['inline-flex items-center gap-1.5 font-semibold', s.trend, trendClass]">

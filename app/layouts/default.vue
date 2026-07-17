@@ -39,7 +39,7 @@ const links: SidebarLink[] = [
       <template #actions>
         <button
           type="button"
-          class="flex h-9 w-9 items-center justify-center rounded-(--radius-md) border border-white/15 bg-white/6 text-[#eee6d4] hover:bg-white/15"
+          class="flex h-9 w-9 items-center justify-center rounded-(--radius-md) border border-white/15 bg-white/6 text-shell-ink hover:bg-white/15"
           :aria-label="theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
           @click="toggleTheme()"
         >

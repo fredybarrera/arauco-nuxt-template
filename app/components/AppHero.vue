@@ -29,13 +29,11 @@ const s = computed(() => sizeClasses[props.size])
 </script>
 
 <template>
-  <section
-    class="relative overflow-hidden rounded-(--radius-lg) border border-line bg-card shadow-(--shadow-sm)"
-    :class="s.root"
-  >
-    <!-- Brillo de marca; usa tokens, funciona igual en modo oscuro -->
+  <section class="cartela border border-line bg-card shadow-(--shadow-sm)" :class="s.root">
+    <!-- Brillo de marca; usa tokens, funciona igual en modo oscuro. Hereda la esquina
+         cortada de la cartela para no sobresalir (el root ya no recorta con overflow). -->
     <div
-      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-calipso/10 via-transparent to-transparent"
+      class="pointer-events-none absolute inset-0 rounded-[0_var(--radius-lg)_0_var(--radius-lg)] bg-gradient-to-br from-calipso/10 via-transparent to-transparent"
     />
     <div class="relative flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
       <div class="min-w-0 flex-1">

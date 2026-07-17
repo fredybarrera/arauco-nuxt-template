@@ -30,14 +30,13 @@ const menuAbierto = ref(false)
 
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 flex h-(--spacing-nav-h) items-center gap-4 border-b border-white/10 px-5 text-[#f3ecdc] backdrop-blur-[10px]"
-    style="background: rgba(51, 48, 43, 0.88)"
+    class="fixed top-0 left-0 right-0 z-50 flex h-(--spacing-nav-h) items-center gap-4 border-b border-white/10 bg-shell/88 px-5 text-shell-ink backdrop-blur-[10px]"
   >
     <!-- Hamburguer -->
     <button
       type="button"
       aria-label="Mostrar u ocultar navegación"
-      class="flex h-9 w-9 items-center justify-center rounded-(--radius-md) border border-white/15 bg-white/6 text-[#eee6d4] hover:bg-white/15"
+      class="flex h-9 w-9 items-center justify-center rounded-(--radius-md) border border-white/15 bg-white/6 text-shell-ink hover:bg-white/15"
       @click="$emit('toggle-sidenav')"
     >
       <AppIcon name="sidebar" />
@@ -45,15 +44,29 @@ const menuAbierto = ref(false)
 
     <!-- Logo / título -->
     <div class="flex items-center gap-2.5 font-display text-lg font-bold tracking-wide uppercase">
+      <!-- Mark: tablones aserrados apilados (vista de canto) — identidad de producto -->
       <span
-        class="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-calipso to-verde text-[15px] text-primary-ink shadow-[0_0_16px_rgba(63,174,154,.4)]"
-        >▲</span
+        class="flex h-7 w-7 items-center justify-center rounded-md border border-white/15 bg-white/6 text-naranja"
+        aria-hidden="true"
       >
+        <svg
+          viewBox="0 0 32 32"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          class="h-[18px] w-[18px]"
+        >
+          <rect x="6" y="8" width="20" height="4.6" rx="1" />
+          <rect x="6" y="14" width="20" height="4.6" rx="1" />
+          <rect x="6" y="20" width="20" height="4.6" rx="1" />
+        </svg>
+      </span>
       <span>{{ title }}</span>
-      <span class="text-[#ffffff]">{{ subtitle }}</span>
+      <span class="text-shell-ink-strong">{{ subtitle }}</span>
     </div>
 
-    <span v-if="tagline" class="hidden font-mono text-xs tracking-wide text-[#ffffff] sm:inline">
+    <span v-if="tagline" class="hidden font-mono text-xs tracking-wide text-shell-ink-strong sm:inline">
       {{ tagline }}
     </span>
 
@@ -66,7 +79,7 @@ const menuAbierto = ref(false)
     <div v-if="userName || $slots['user-menu']" class="relative">
       <button
         type="button"
-        class="flex h-9 items-center gap-2.5 rounded-full border border-white/15 bg-white/6 px-3 text-[#eee6d4] hover:bg-white/15"
+        class="flex h-9 items-center gap-2.5 rounded-full border border-white/15 bg-white/6 px-3 text-shell-ink hover:bg-white/15"
         @click="menuAbierto = !menuAbierto"
       >
         <span
