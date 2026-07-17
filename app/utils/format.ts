@@ -34,6 +34,19 @@ export function formatPercent(value: number | null | undefined, decimals = 1): s
   return `${formatNumber(value, decimals)}%`
 }
 
+export function formatBytes(bytes: number | null | undefined): string {
+  if (bytes == null || Number.isNaN(bytes)) return ''
+  if (bytes < 1024) return `${bytes} B`
+  const unidades = ['KB', 'MB', 'GB', 'TB']
+  let v = bytes
+  let i = -1
+  do {
+    v /= 1024
+    i++
+  } while (v >= 1024 && i < unidades.length - 1)
+  return `${formatNumber(v, v < 10 ? 1 : 0)} ${unidades[i]}`
+}
+
 function toDate(value: Date | string | null | undefined): Date | null {
   if (value == null || value === '') return null
   const d = value instanceof Date ? value : new Date(value)

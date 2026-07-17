@@ -2,6 +2,8 @@
 import type { DataTableColumn, FilterDef } from '~/types/table'
 import type { ComboboxModel, ComboboxValue, SelectOption } from '~/types/form'
 import type { TreeNode } from '~/types/tree'
+import type { CalendarEvent } from '~/types/calendar'
+import type { FileItem } from '~/types/files'
 
 const { showToast } = useToast()
 const { confirmar } = useConfirm()
@@ -31,6 +33,26 @@ const responsables: SelectOption[] = [
   { label: 'Jorge Riquelme', value: 'jriquelme' },
 ]
 const grupoAsignados = ref<ComboboxValue[]>(['lsoto', 'rdiaz'])
+
+const hoy = new Date()
+const eventos: CalendarEvent[] = [
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 3), label: 'Mantención Línea 1', tone: 'warning' },
+  { date: hoy, label: 'Reunión mensual', tone: 'primary' },
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 12), label: 'Auditoría interna', tone: 'danger' },
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 12), label: 'Entrega de reporte', tone: 'success' },
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 12), label: 'Corte programado', tone: 'warning' },
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 12), label: 'Visita gerencia', tone: 'primary' },
+  { date: new Date(hoy.getFullYear(), hoy.getMonth(), 24), label: 'Cierre de mes', tone: 'success' },
+]
+
+const archivos = ref<FileItem[]>([
+  { name: 'informe-produccion.pdf', size: 1_482_000, url: '#' },
+  { name: 'fotos-linea1.zip', size: 48_210_000, progress: 62 },
+  { name: 'datos.xlsx', size: 89_500, error: 'Formato no permitido' },
+])
+function quitarArchivo(_file: FileItem, i: number) {
+  archivos.value.splice(i, 1)
+}
 
 const nodoSeleccionado = ref<string | null>('mdf-l1')
 const jerarquia: TreeNode[] = [
@@ -217,6 +239,10 @@ async function probarConfirm() {
           </label>
         </div>
       </div>
+      <div class="mt-5">
+        <p class="mb-2 text-[13px] font-semibold text-ink">Archivos (AppFileList)</p>
+        <AppFileList :files="archivos" @remove="quitarArchivo" />
+      </div>
     </section>
 
     <!-- Organización -->
@@ -328,6 +354,16 @@ async function probarConfirm() {
       </div>
     </section>
 
+    <!-- Calendario -->
+    <section class="frame">
+      <h2 class="mb-4 font-display text-lg font-bold">Calendario</h2>
+      <AppCalendar
+        :events="eventos"
+        @select-event="(ev) => showToast(ev.label, 'info')"
+        @select-day="(d, evs) => showToast(`${formatDate(d)}: ${evs.length} evento(s)`, 'info')"
+      />
+    </section>
+
     <!-- Feedback -->
     <section class="frame">
       <h2 class="mb-4 font-display text-lg font-bold">Feedback</h2>
@@ -383,6 +419,21 @@ async function probarConfirm() {
         <AppProgress label="Avance del proyecto" :value="progreso" show-value />
         <AppProgress label="Cargando (indeterminado)" tone="warning" />
         <AppPagination v-model="paginaDemo" :total-pages="12" />
+        <div>
+          <p class="mb-2 text-[13px] font-semibold text-ink">Popover con detección de bordes</p>
+          <AppPopover panel-class="w-64">
+            <template #trigger="{ open }">
+              <AppButton variant="outline" size="sm">Abrir popover {{ open ? '▴' : '▾' }}</AppButton>
+            </template>
+            <template #default="{ close }">
+              <p class="m-0 text-[13px] text-ink-soft">
+                Contenido libre. El panel se voltea hacia arriba o se alinea a la derecha si no cabe en el
+                viewport.
+              </p>
+              <AppButton variant="ghost" size="sm" class="mt-2" @click="close">Cerrar</AppButton>
+            </template>
+          </AppPopover>
+        </div>
         <div>
           <p class="mb-2 text-[13px] font-semibold text-ink">Vista jerárquica (AppTree)</p>
           <div class="max-w-sm rounded-(--radius-md) border border-line bg-card p-2.5">
