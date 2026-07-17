@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComboboxValue, SelectOption } from '~/types/form'
+import type { ComboboxValue, SelectOption } from '#planos/types/form'
 
 /** v-model: valores asignados (columna derecha), en el orden de `options`. */
 const model = defineModel<ComboboxValue[]>({ default: () => [] })

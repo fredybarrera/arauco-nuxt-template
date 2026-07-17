@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectOption } from '~/types/form'
+import type { SelectOption } from '#planos/types/form'
 
 const model = defineModel<string | number>({ default: '' })
 

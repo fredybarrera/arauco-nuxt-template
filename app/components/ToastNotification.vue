@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ToastType } from '~/composables/useToast'
+import type { ToastType } from '#planos/composables/useToast'
 const { toasts, dismiss } = useToast()
 
 function iconoPorTipo(tipo: ToastType) {

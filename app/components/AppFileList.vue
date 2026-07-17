@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileItem } from '~/types/files'
+import type { FileItem } from '#planos/types/files'
 
 withDefaults(
   defineProps<{

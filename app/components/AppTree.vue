@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TreeNode } from '~/types/tree'
+import type { TreeNode } from '#planos/types/tree'
 
 const selected = defineModel<string | null>({ default: null })
 const expanded = defineModel<string[]>('expanded', { default: () => [] })

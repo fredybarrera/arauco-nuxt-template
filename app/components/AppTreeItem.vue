@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TreeNode } from '~/types/tree'
+import type { TreeNode } from '#planos/types/tree'
 
 const props = defineProps<{
   node: TreeNode

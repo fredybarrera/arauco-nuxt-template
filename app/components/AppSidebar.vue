@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SidebarLink } from '~/types/sidenav'
+import type { SidebarLink } from '#planos/types/sidenav'
 
 withDefaults(
   defineProps<{

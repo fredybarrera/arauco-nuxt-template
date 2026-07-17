@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CalendarEvent, CalendarTone } from '~/types/calendar'
+import type { CalendarEvent, CalendarTone } from '#planos/types/calendar'
 
 /** v-model:month controla el mes visible; sin bind usa estado interno. */
 const month = defineModel<Date>('month', { default: () => new Date() })

@@ -16,34 +16,49 @@ lista para iniciar un proyecto nuevo.
 
 ## Uso
 
+Este repo es a la vez una **Nuxt Layer** (la capa reutilizable, en `app/` + `nuxt.config.ts`)
+y una **app de demostración** (`.playground/`, que extiende la capa). Los scripts corren sobre
+el playground:
+
 ```bash
 npm install
-npm run dev           # http://localhost:5173
-npm run build
-npm run typecheck
+npm run dev           # nuxt dev .playground → http://localhost:5173
+npm run build         # nuxt build .playground
+npm run typecheck     # vue-tsc (verifica capa + playground)
 npm run lint          # eslint . (lint:fix para autocorregir)
 npm run format        # prettier --write . (format:check en CI)
 ```
 
-Las páginas `/` y `/componentes` son demos: muestran la librería en acción. Elimínalas
-cuando empieces tu proyecto real.
+Las páginas `/`, `/componentes` y `/perfil` son demos y viven en `.playground/` justamente
+para que **no** se hereden al usar la capa en otro proyecto. Para reutilizar el DS, ver
+[Usar como Nuxt Layer](#usar-como-nuxt-layer).
 
 ## Estructura
 
 ```
-app/
+app/                        # ← LA CAPA (lo que heredan los consumidores)
 ├── assets/
 │   ├── css/main.css        # Tokens @theme + clases .input, .frame, .cartela, .cartela-left, .tooltip, .skeleton
 │   └── fonts/              # Roboto + IBM Plex Mono (woff2 auto-hospedadas)
-├── components/             # Design system Planos (auto-importados)
+├── components/             # Design system Planos (auto-importados entre capas)
 ├── composables/            # useToast, useConfirm, useScrollSpy, useFormField, useFocusTrap, useTheme
 ├── plugins/theme.client.ts # Aplica el tema guardado (o el del sistema) al arrancar
+├── app.vue                 # Fallback: <NuxtLayout><NuxtPage/></NuxtLayout>
 ├── error.vue               # Página de error 404/500 con estilo del DS
 ├── layouts/default.vue     # Shell: navbar + sidebar + ToastStack + ConfirmDialog
-├── pages/                  # index.vue, componentes.vue y perfil.vue (demos)
 ├── types/                  # sidenav.ts, table.ts, form.ts, tree.ts, calendar.ts, files.ts
 └── utils/                  # sanitizeHtml.ts, format.ts (formatDate, formatNumber… es-CL)
+nuxt.config.ts              # Config de la CAPA (css absoluto, alias #planos, ssr:false, tailwind)
+.playground/                # ← APP DEMO (no se hereda)
+├── nuxt.config.ts          # extends: ['..'] + módulos solo-dev
+└── app/pages/              # index.vue, componentes.vue, perfil.vue
 ```
+
+> **Alias `#planos`**: dentro de la capa, los tipos/composables se importan con
+> `#planos/...` (p. ej. `import type { SelectOption } from '#planos/types/form'`), **no**
+> con `~/...`. En una Nuxt Layer, `~/` y `@/` se resuelven contra el proyecto _consumidor_,
+> así que romperían. El alias `#planos` (definido en `nuxt.config.ts` con ruta absoluta)
+> apunta siempre a `app/` de la capa, funcione donde funcione.
 
 ## Personalización rápida
 
@@ -126,84 +141,124 @@ son piezas auxiliares o de composición.
 
 ### Shell y layout
 
-| Componente | Notas |
-| --- | --- |
-| `AppNavbar` | Barra superior oscura; props `title`, `subtitle`, `tagline`, `user-name`, slots `#actions` / `#user-menu`. Mark de tablones (SVG inline) |
-| `AppSidebar` / `AppSidebarItem` | Navegación lateral; `links`, `linksSecundarios`, `tituloSecundario`. `children` anidados sin límite; se abren solos si la ruta activa está dentro |
-| `AppHero` | Cabecera con cartela; `size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` (nivel de encabezado), slot `#actions` y default (p. ej. fila de KPIs) |
-| `SidenavItem` / `SkeletonLoader` | Piezas auxiliares del shell |
+| Componente                       | Notas                                                                                                                                                 |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppNavbar`                      | Barra superior oscura; props `title`, `subtitle`, `tagline`, `user-name`, slots `#actions` / `#user-menu`. Mark de tablones (SVG inline)              |
+| `AppSidebar` / `AppSidebarItem`  | Navegación lateral; `links`, `linksSecundarios`, `tituloSecundario`. `children` anidados sin límite; se abren solos si la ruta activa está dentro     |
+| `AppHero`                        | Cabecera con cartela; `size` sm/md/lg, `title`/`subtitle`/`eyebrow`, prop `as` (nivel de encabezado), slot `#actions` y default (p. ej. fila de KPIs) |
+| `SidenavItem` / `SkeletonLoader` | Piezas auxiliares del shell                                                                                                                           |
 
 ### Formularios e inputs
 
-| Componente | Notas |
-| --- | --- |
-| `AppFormField` | Envuelve cualquier control: label + hint + error; provee `id` y estado de error vía `useFormField` |
-| `AppInput` | `icon`, `clearable` |
-| `AppTextarea` | `maxlength` + `show-count` |
-| `AppNumberInput` | `number \| null`; formato es-CL al desenfocar; `decimals`/`min`/`max`/`suffix` |
-| `AppSelect` | `options: SelectOption[]` |
-| `AppCombobox` | Select con búsqueda; `multiple` acumula chips, `clearable`; `v-model` es `ComboboxModel` |
-| `AppCheck` / `AppRadio` / `AppSwitch` | Radio: uno por opción con `value` |
-| `AppChipInput` | Entrada de tags/chips |
-| `AppColorPicker` | Selector de color |
-| `AppDatePicker` | `Date \| null`, popover por defecto; `min`/`max`/`inline` |
-| `AppRating` | Valoración por estrellas |
-| `AppDropzone` | Zona de arrastrar y soltar (combina con `AppFileList`) |
-| `AppRichEditor` | Editor enriquecido (usa `sanitizeHtml`) |
+| Componente                            | Notas                                                                                              |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `AppFormField`                        | Envuelve cualquier control: label + hint + error; provee `id` y estado de error vía `useFormField` |
+| `AppInput`                            | `icon`, `clearable`                                                                                |
+| `AppTextarea`                         | `maxlength` + `show-count`                                                                         |
+| `AppNumberInput`                      | `number \| null`; formato es-CL al desenfocar; `decimals`/`min`/`max`/`suffix`                     |
+| `AppSelect`                           | `options: SelectOption[]`                                                                          |
+| `AppCombobox`                         | Select con búsqueda; `multiple` acumula chips, `clearable`; `v-model` es `ComboboxModel`           |
+| `AppCheck` / `AppRadio` / `AppSwitch` | Radio: uno por opción con `value`                                                                  |
+| `AppChipInput`                        | Entrada de tags/chips                                                                              |
+| `AppColorPicker`                      | Selector de color                                                                                  |
+| `AppDatePicker`                       | `Date \| null`, popover por defecto; `min`/`max`/`inline`                                          |
+| `AppRating`                           | Valoración por estrellas                                                                           |
+| `AppDropzone`                         | Zona de arrastrar y soltar (combina con `AppFileList`)                                             |
+| `AppRichEditor`                       | Editor enriquecido (usa `sanitizeHtml`)                                                            |
 
 > Los controles aceptan `invalid` para forzar el estado de error sin `AppFormField`.
 
 ### Overlays y feedback
 
-| Componente | Notas |
-| --- | --- |
-| `AppModal` | `size` sm/md/lg, `closable`, slot `#footer`; lleva cartela |
-| `AppDrawer` | Panel lateral; cartela de borde (`.cartela-left`) |
-| `AppPopover` | Primitivo con detección de bordes (flip/alineación auto); slots `#trigger="{ open }"` y default `="{ close }"`, prop `panel-class` |
-| `AppDropdown` / `DropdownItem` | Menú desplegable |
-| `AppTooltip` | Tooltip (o clase `.tooltip`) |
-| `ConfirmDialog` | Confirmación (ver `useConfirm`) |
-| `AppAlert` | Mensaje en línea |
-| `ToastStack` / `ToastNotification` | Toasts (ver `useToast`) |
-| `AppEmptyState` | Estado vacío |
+| Componente                         | Notas                                                                                                                              |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `AppModal`                         | `size` sm/md/lg, `closable`, slot `#footer`; lleva cartela                                                                         |
+| `AppDrawer`                        | Panel lateral; cartela de borde (`.cartela-left`)                                                                                  |
+| `AppPopover`                       | Primitivo con detección de bordes (flip/alineación auto); slots `#trigger="{ open }"` y default `="{ close }"`, prop `panel-class` |
+| `AppDropdown` / `DropdownItem`     | Menú desplegable                                                                                                                   |
+| `AppTooltip`                       | Tooltip (o clase `.tooltip`)                                                                                                       |
+| `ConfirmDialog`                    | Confirmación (ver `useConfirm`)                                                                                                    |
+| `AppAlert`                         | Mensaje en línea                                                                                                                   |
+| `ToastStack` / `ToastNotification` | Toasts (ver `useToast`)                                                                                                            |
+| `AppEmptyState`                    | Estado vacío                                                                                                                       |
 
 > `AppModal`, `AppDrawer` y `ConfirmDialog` comparten `useFocusTrap`: focus trap, bloqueo de
 > scroll, Escape y retorno de foco.
 
 ### Datos y organización
 
-| Componente | Notas |
-| --- | --- |
-| `AppCard` | Tarjeta contenedora (cartela) |
-| `AppBadge` | `tone` + slot |
-| `AppAvatar` / `AppAvatarGroup` | `initials`; grupo apilado |
-| `DataTable` / `FilteredTable` | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`) |
-| `AppPagination` | Standalone: `v-model` página + `total-pages` |
-| `AppTree` / `AppTreeItem` | `nodes: TreeNode[]`, `v-model` clave, `v-model:expanded`, `default-expand-all`, `@select`, slot `#label="{ node, depth }"` |
-| `AppTransferList` | Asignación entre dos listas; `v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve, "mover todos" respeta filtro |
-| `AppTimeline` | Línea de tiempo |
-| `AppCalendar` | Vista mensual; `events: CalendarEvent[]` con `tone`, `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, `@select-day` / `@select-event` |
-| `AppFileList` | `files: FileItem[]` con tamaño, progreso, error y enlace; `@remove` |
-| `AppAccordion` / `AppTabs` | Contenido colapsable / pestañas |
-| `AppWizard` | Asistente por pasos; slots `#panel-0…n` |
-| `SegmentedControl` / `StatusBar` | Toggle de opciones / barra de estado |
+| Componente                       | Notas                                                                                                                                             |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppCard`                        | Tarjeta contenedora (cartela)                                                                                                                     |
+| `AppBadge`                       | `tone` + slot                                                                                                                                     |
+| `AppAvatar` / `AppAvatarGroup`   | `initials`; grupo apilado                                                                                                                         |
+| `DataTable` / `FilteredTable`    | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`)                                                                        |
+| `AppPagination`                  | Standalone: `v-model` página + `total-pages`                                                                                                      |
+| `AppTree` / `AppTreeItem`        | `nodes: TreeNode[]`, `v-model` clave, `v-model:expanded`, `default-expand-all`, `@select`, slot `#label="{ node, depth }"`                        |
+| `AppTransferList`                | Asignación entre dos listas; `v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve, "mover todos" respeta filtro |
+| `AppTimeline`                    | Línea de tiempo                                                                                                                                   |
+| `AppCalendar`                    | Vista mensual; `events: CalendarEvent[]` con `tone`, `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, `@select-day` / `@select-event`     |
+| `AppFileList`                    | `files: FileItem[]` con tamaño, progreso, error y enlace; `@remove`                                                                               |
+| `AppAccordion` / `AppTabs`       | Contenido colapsable / pestañas                                                                                                                   |
+| `AppWizard`                      | Asistente por pasos; slots `#panel-0…n`                                                                                                           |
+| `SegmentedControl` / `StatusBar` | Toggle de opciones / barra de estado                                                                                                              |
 
 ### Indicadores y visualización
 
-| Componente | Notas |
-| --- | --- |
-| `KpiTile` | `size` sm/md/lg; `trend` up/down es la flecha, `sentiment` positive/negative/neutral el color (por defecto se deriva de `trend`) |
-| `BarChart` / `TrendSparkline` | Gráfico de barras / sparkline |
-| `AppProgress` | `value` 0–100 o indeterminado, `tone`, `show-value` |
-| `AppSpinner` | Hereda el color |
-| `AppSkeleton` | `variant`, `width` |
-| `AppBreadcrumbs` | `items: { label, to? }[]` |
-| `AppIcon` / `IconSprite` | Sistema de iconos (sprite SVG) |
+| Componente                    | Notas                                                                                                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `KpiTile`                     | `size` sm/md/lg; `trend` up/down es la flecha, `sentiment` positive/negative/neutral el color (por defecto se deriva de `trend`) |
+| `BarChart` / `TrendSparkline` | Gráfico de barras / sparkline                                                                                                    |
+| `AppProgress`                 | `value` 0–100 o indeterminado, `tone`, `show-value`                                                                              |
+| `AppSpinner`                  | Hereda el color                                                                                                                  |
+| `AppSkeleton`                 | `variant`, `width`                                                                                                               |
+| `AppBreadcrumbs`              | `items: { label, to? }[]`                                                                                                        |
+| `AppIcon` / `IconSprite`      | Sistema de iconos (sprite SVG)                                                                                                   |
 
-## Cómo mantener la base sincronizada entre proyectos
+## Usar como Nuxt Layer
 
-Esta plantilla es una **copia** (fork del DS). Para cambios puntuales basta con copiar el
-componente actualizado entre proyectos. Si el design system va a evolucionar en varios
-proyectos a la vez, considera migrar `components/`, `composables/`, `types/` y `assets/`
-a un **Nuxt Layer** publicado como paquete privado (npm/Azure Artifacts) y extenderlo con
-`extends: ['@arauco/planos-ds']` en cada `nuxt.config.ts`.
+Este repo está preparado como **capa base**: un proyecto consumidor la extiende y hereda
+automáticamente componentes, composables, utils, plugins, layout, assets/fuentes y los tokens
+del DS. Un único lugar donde mantener el design system; los proyectos hijos solo consumen y
+sobreescriben lo que necesiten.
+
+### 1. En el proyecto consumidor
+
+```ts
+// nuxt.config.ts del proyecto hijo
+export default defineNuxtConfig({
+  extends: ['github:Arauco/arauco-nuxt-template'],
+  // o una versión fijada:  'github:Arauco/arauco-nuxt-template#v1.0.0'
+  // o una ruta local:       '../arauco-nuxt-template'
+})
+```
+
+### 2. Instalar las dependencias que la capa necesita en runtime
+
+Las capas por git **no** instalan sus propias dependencias en el consumidor. Como el
+`nuxt.config.ts` de la capa importa el plugin de Tailwind, el proyecto hijo debe tenerlas:
+
+```bash
+npm install -D tailwindcss @tailwindcss/vite
+```
+
+(`nuxt` y `vue` ya los tiene cualquier proyecto Nuxt.) Nada más: el CSS del DS, las fuentes,
+el alias `#planos` y los ~60 componentes `App*` quedan disponibles y auto-importados.
+
+### 3. Personalizar
+
+- **Navegación / identidad del shell**: crea tu propio `app/layouts/default.vue` (el del
+  hijo gana sobre el de la capa) o pásale otros props/links a `AppNavbar` / `AppSidebar`.
+- **Paleta / tokens**: define tu propio `app/assets/css/main.css` con un bloque `@theme` que
+  redefina las variables, o crea utilidades encima. Los componentes solo usan tokens.
+- **Rutas**: tus `pages/` son tuyas; la capa ya no aporta páginas.
+
+### Notas y limitaciones
+
+- La capa fija `ssr: false` (el DS es SPA: usa `localStorage` y un plugin `.client`). Si tu
+  proyecto necesita SSR, tenlo en cuenta al sobreescribir la config.
+- Dentro de código de la capa nunca uses `~/` para referenciar sus propios archivos: usa el
+  alias `#planos` (ver nota en [Estructura](#estructura)).
+- Distribución alternativa: publicar la capa como paquete privado (npm / Azure Artifacts) y
+  extender con `extends: ['@arauco/planos-ds']`. Aporta semver real a costa de un paso de
+  build/publish; recomendable solo cuando varios equipos la consuman.

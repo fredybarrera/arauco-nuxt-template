@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { DataTableColumn, FilterDef } from '~/types/table'
-import type { ComboboxModel, ComboboxValue, SelectOption } from '~/types/form'
-import type { TreeNode } from '~/types/tree'
-import type { CalendarEvent } from '~/types/calendar'
-import type { FileItem } from '~/types/files'
+import type { DataTableColumn, FilterDef } from '#planos/types/table'
+import type { ComboboxModel, ComboboxValue, SelectOption } from '#planos/types/form'
+import type { TreeNode } from '#planos/types/tree'
+import type { CalendarEvent } from '#planos/types/calendar'
+import type { FileItem } from '#planos/types/files'
 
 const { showToast } = useToast()
 const { confirmar } = useConfirm()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DataTableColumn } from '~/types/table'
+import type { DataTableColumn } from '#planos/types/table'
 
 const props = withDefaults(
   defineProps<{

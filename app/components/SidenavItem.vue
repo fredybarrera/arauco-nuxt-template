@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SidenavNode } from '~/types/sidenav'
+import type { SidenavNode } from '#planos/types/sidenav'
 
 const props = withDefaults(defineProps<{ node: SidenavNode; depth?: number }>(), { depth: 0 })
 

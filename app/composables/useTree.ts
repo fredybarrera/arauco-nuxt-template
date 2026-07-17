@@ -1,5 +1,5 @@
 import type { ComputedRef, InjectionKey } from 'vue'
-import type { TreeNode } from '~/types/tree'
+import type { TreeNode } from '#planos/types/tree'
 
 export interface TreeContext {
   selected: ComputedRef<string | null>

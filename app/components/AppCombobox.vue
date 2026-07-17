@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComboboxModel, ComboboxValue, SelectOption } from '~/types/form'
+import type { ComboboxModel, ComboboxValue, SelectOption } from '#planos/types/form'
 
 const model = defineModel<ComboboxModel>({ default: null })
 
