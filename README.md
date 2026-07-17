@@ -40,7 +40,7 @@ app/
 ├── error.vue               # Página de error 404/500 con estilo del DS
 ├── layouts/default.vue     # Shell: navbar + sidebar + ToastStack + ConfirmDialog
 ├── pages/                  # index.vue y componentes.vue (demos)
-├── types/                  # sidenav.ts, table.ts, form.ts
+├── types/                  # sidenav.ts, table.ts, form.ts, tree.ts
 └── utils/                  # sanitizeHtml.ts, format.ts (formatDate, formatNumber… es-CL)
 ```
 
@@ -108,7 +108,9 @@ comparten `useFocusTrap`: focus trap, bloqueo de scroll, Escape y retorno de foc
 **Visualización**: AppIcon + IconSprite, AppBadge (`tone` + slot), AppAlert, AppCard,
 AppEmptyState, AppSkeleton (`variant`, `width`), AppAvatar (`initials`), AppAvatarGroup
 **Organización**: AppAccordion, AppRating, SegmentedControl, AppTabs, AppTimeline,
-AppWizard (slots `#panel-0…n`), StatusBar
+AppWizard (slots `#panel-0…n`), StatusBar, AppTree (jerarquías: `nodes: TreeNode[]`,
+`v-model` clave seleccionada, `v-model:expanded`, `default-expand-all`, evento `@select`,
+slot `#label="{ node, depth }"`)
 **Tablas**: DataTable, FilteredTable (con búsqueda, filtros y export), AppPagination
 (standalone: `v-model` página + `total-pages`)
 **Indicadores**: AppSpinner (hereda color), AppProgress (`value` 0–100 o indeterminado,

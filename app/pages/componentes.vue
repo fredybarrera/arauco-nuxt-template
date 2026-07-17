@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DataTableColumn, FilterDef } from '~/types/table'
 import type { SelectOption } from '~/types/form'
+import type { TreeNode } from '~/types/tree'
 
 const { showToast } = useToast()
 const { confirmar } = useConfirm()
@@ -17,6 +18,41 @@ const areaOptions: SelectOption[] = [
 const errorCorreo = computed(() =>
   correo.value && !correo.value.includes('@') ? 'Ingresa un correo válido.' : undefined
 )
+
+const nodoSeleccionado = ref<string | null>('mdf-l1')
+const jerarquia: TreeNode[] = [
+  {
+    key: 'celulosa',
+    label: 'Celulosa',
+    icon: 'box',
+    children: [
+      {
+        key: 'planta-arauco',
+        label: 'Planta Arauco',
+        children: [
+          { key: 'arauco-l1', label: 'Línea 1', icon: 'chart' },
+          { key: 'arauco-l2', label: 'Línea 2', icon: 'chart' },
+        ],
+      },
+      { key: 'planta-valdivia', label: 'Planta Valdivia' },
+    ],
+  },
+  {
+    key: 'maderas',
+    label: 'Maderas',
+    icon: 'box',
+    children: [
+      {
+        key: 'planta-mdf',
+        label: 'Planta MDF',
+        children: [
+          { key: 'mdf-l1', label: 'Línea MDF 1', icon: 'chart' },
+          { key: 'mdf-l2', label: 'Línea MDF 2 (detenida)', icon: 'chart', disabled: true },
+        ],
+      },
+    ],
+  },
+]
 
 const modalOpen = ref(false)
 const drawerOpen = ref(false)
@@ -302,6 +338,13 @@ async function probarConfirm() {
         <AppProgress label="Avance del proyecto" :value="progreso" show-value />
         <AppProgress label="Cargando (indeterminado)" tone="warning" />
         <AppPagination v-model="paginaDemo" :total-pages="12" />
+        <div>
+          <p class="mb-2 text-[13px] font-semibold text-ink">Vista jerárquica (AppTree)</p>
+          <div class="max-w-sm rounded-(--radius-md) border border-line bg-card p-2.5">
+            <AppTree v-model="nodoSeleccionado" :nodes="jerarquia" default-expand-all />
+          </div>
+          <p class="mt-2 font-mono text-[12px] text-ink-soft">Seleccionado: {{ nodoSeleccionado ?? '—' }}</p>
+        </div>
       </div>
     </section>
 
