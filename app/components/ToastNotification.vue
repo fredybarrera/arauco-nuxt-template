@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Toast, ToastType } from '~/composables/useToast'
+import type { ToastType } from '~/composables/useToast'
 const { toasts, dismiss } = useToast()
 
 function iconoPorTipo(tipo: ToastType) {
@@ -9,9 +9,9 @@ function iconoPorTipo(tipo: ToastType) {
 function colorPorTipo(tipo: ToastType) {
   const m: Record<ToastType, string> = {
     success: 'bg-card border-l-4 border-l-calipso text-ink',
-    error:   'bg-card border-l-4 border-l-rojo text-ink',
+    error: 'bg-card border-l-4 border-l-rojo text-ink',
     warning: 'bg-card border-l-4 border-l-naranja text-ink',
-    info:    'bg-card border-l-4 border-l-calipso/60 text-ink',
+    info: 'bg-card border-l-4 border-l-calipso/60 text-ink',
   }
   return m[tipo]
 }
@@ -34,7 +34,9 @@ function colorPorTipo(tipo: ToastType) {
             class="ml-1 text-ink-soft hover:text-ink"
             aria-label="Cerrar"
             @click="dismiss(toast.id)"
-          >×</button>
+          >
+            ×
+          </button>
         </div>
       </TransitionGroup>
     </div>
@@ -42,7 +44,16 @@ function colorPorTipo(tipo: ToastType) {
 </template>
 
 <style scoped>
-.toast-enter-active, .toast-leave-active { transition: all .22s ease; }
-.toast-enter-from { opacity: 0; transform: translateX(1rem); }
-.toast-leave-to   { opacity: 0; transform: translateX(1rem); }
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.22s ease;
+}
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(1rem);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(1rem);
+}
 </style>

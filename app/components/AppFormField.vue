@@ -10,7 +10,7 @@ const id = useId()
 
 provide(formFieldKey, {
   id,
-  error: computed(() => props.error)
+  error: computed(() => props.error),
 })
 </script>
 

@@ -12,7 +12,15 @@ interface ConfirmState extends ConfirmOptions {
 }
 
 function estadoInicial(): ConfirmState {
-  return { open: false, message: '', title: undefined, confirmLabel: undefined, cancelLabel: undefined, tone: 'primary', resolve: null }
+  return {
+    open: false,
+    message: '',
+    title: undefined,
+    confirmLabel: undefined,
+    cancelLabel: undefined,
+    tone: 'primary',
+    resolve: null,
+  }
 }
 
 export function useConfirm() {

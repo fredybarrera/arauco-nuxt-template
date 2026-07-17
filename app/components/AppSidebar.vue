@@ -5,16 +5,19 @@ export interface SidebarLink {
   icon: string
 }
 
-withDefaults(defineProps<{
-  collapsed: boolean
-  links?: SidebarLink[]
-  linksSecundarios?: SidebarLink[]
-  tituloSecundario?: string
-}>(), {
-  links: () => [{ label: 'Inicio', to: '/', icon: 'home' }],
-  linksSecundarios: () => [],
-  tituloSecundario: 'Administración'
-})
+withDefaults(
+  defineProps<{
+    collapsed: boolean
+    links?: SidebarLink[]
+    linksSecundarios?: SidebarLink[]
+    tituloSecundario?: string
+  }>(),
+  {
+    links: () => [{ label: 'Inicio', to: '/', icon: 'home' }],
+    linksSecundarios: () => [],
+    tituloSecundario: 'Administración',
+  }
+)
 </script>
 
 <template>

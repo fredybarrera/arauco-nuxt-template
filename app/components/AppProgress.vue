@@ -1,24 +1,27 @@
 <script setup lang="ts">
 type Tone = 'primary' | 'success' | 'warning' | 'danger'
 
-const props = withDefaults(defineProps<{
-  /** 0–100. Sin valor: modo indeterminado (barra animada). */
-  value?: number
-  tone?: Tone
-  label?: string
-  showValue?: boolean
-}>(), {
-  value: undefined,
-  tone: 'primary',
-  label: undefined,
-  showValue: false
-})
+const props = withDefaults(
+  defineProps<{
+    /** 0–100. Sin valor: modo indeterminado (barra animada). */
+    value?: number
+    tone?: Tone
+    label?: string
+    showValue?: boolean
+  }>(),
+  {
+    value: undefined,
+    tone: 'primary',
+    label: undefined,
+    showValue: false,
+  }
+)
 
 const toneClasses: Record<Tone, string> = {
   primary: 'bg-calipso',
   success: 'bg-verde',
   warning: 'bg-amarillo',
-  danger: 'bg-rojo-deep'
+  danger: 'bg-rojo-deep',
 }
 
 const clamped = computed(() =>
@@ -30,7 +33,9 @@ const clamped = computed(() =>
   <div>
     <div v-if="label || showValue" class="mb-1.5 flex items-baseline justify-between gap-2">
       <span v-if="label" class="text-[13px] font-semibold text-ink">{{ label }}</span>
-      <span v-if="showValue && clamped !== undefined" class="font-mono text-[12px] text-ink-soft">{{ Math.round(clamped) }}%</span>
+      <span v-if="showValue && clamped !== undefined" class="font-mono text-[12px] text-ink-soft"
+        >{{ Math.round(clamped) }}%</span
+      >
     </div>
     <div
       role="progressbar"
@@ -54,8 +59,12 @@ const clamped = computed(() =>
   animation: progress-slide 1.2s ease-in-out infinite;
 }
 @keyframes progress-slide {
-  0% { margin-left: -33%; }
-  100% { margin-left: 100%; }
+  0% {
+    margin-left: -33%;
+  }
+  100% {
+    margin-left: 100%;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .progress-indeterminate {

@@ -50,7 +50,12 @@ const parts = computed(() => {
     <div v-if="label" class="font-mono text-[11px] tracking-[.05em] uppercase text-ink-soft mb-3.5">
       {{ label }}
     </div>
-    <svg class="w-full h-auto block" :viewBox="`0 0 ${width} ${height}`" role="img" aria-label="Distribución de estado">
+    <svg
+      class="w-full h-auto block"
+      :viewBox="`0 0 ${width} ${height}`"
+      role="img"
+      aria-label="Distribución de estado"
+    >
       <path v-for="(p, i) in parts" :key="i" :d="p.path" :fill="p.color">
         <title>{{ p.label }}: {{ p.percent }}%</title>
       </path>

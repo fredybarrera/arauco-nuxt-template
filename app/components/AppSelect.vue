@@ -3,16 +3,19 @@ import type { SelectOption } from '~/types/form'
 
 const model = defineModel<string | number>({ default: '' })
 
-const props = withDefaults(defineProps<{
-  options: SelectOption[]
-  placeholder?: string
-  disabled?: boolean
-  invalid?: boolean
-}>(), {
-  placeholder: undefined,
-  disabled: false,
-  invalid: false
-})
+const props = withDefaults(
+  defineProps<{
+    options: SelectOption[]
+    placeholder?: string
+    disabled?: boolean
+    invalid?: boolean
+  }>(),
+  {
+    placeholder: undefined,
+    disabled: false,
+    invalid: false,
+  }
+)
 
 const field = useFormField()
 const isInvalid = computed(() => props.invalid || Boolean(field?.error.value))

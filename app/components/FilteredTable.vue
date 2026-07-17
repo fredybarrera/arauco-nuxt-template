@@ -3,7 +3,7 @@ import type { DataTableColumn, FilterDef } from '~/types/table'
 
 const props = defineProps<{
   columns: DataTableColumn[]
-  rows: Record<string, any>[]
+  rows: Record<string, unknown>[]
   filters: FilterDef[]
   searchKeys: string[]
   searchPlaceholder?: string
@@ -17,7 +17,11 @@ const filteredRows = computed(() => {
   return props.rows.filter((row) => {
     if (search.value) {
       const q = search.value.toLowerCase()
-      const matches = props.searchKeys.some((k) => String(row[k] ?? '').toLowerCase().includes(q))
+      const matches = props.searchKeys.some((k) =>
+        String(row[k] ?? '')
+          .toLowerCase()
+          .includes(q)
+      )
       if (!matches) return false
     }
     for (const f of props.filters) {
@@ -36,12 +40,12 @@ function optionLabel(filter: FilterDef) {
 }
 
 function removeFilter(key: string) {
-  delete activeFilters[key]
+  activeFilters[key] = ''
 }
 
 function clearFilters() {
   search.value = ''
-  for (const f of props.filters) delete activeFilters[f.key]
+  for (const f of props.filters) activeFilters[f.key] = ''
 }
 </script>
 
@@ -50,7 +54,7 @@ function clearFilters() {
     <div class="flex items-center gap-3 flex-wrap mb-4">
       <div class="relative flex-1 min-w-[180px] max-w-xs">
         <AppIcon name="search" :size="16" class="absolute left-3 top-[11px] text-ink-soft" />
-        <input v-model="search" class="input pl-9" :placeholder="searchPlaceholder || 'Buscar…'">
+        <input v-model="search" class="input pl-9" :placeholder="searchPlaceholder || 'Buscar…'" />
       </div>
 
       <select
@@ -87,12 +91,7 @@ function clearFilters() {
       </AppButton>
     </div>
 
-    <DataTable
-      :columns="columns"
-      :rows="filteredRows"
-      :export-filename="filename"
-      :total-rows="rows.length"
-    >
+    <DataTable :columns="columns" :rows="filteredRows" :export-filename="filename" :total-rows="rows.length">
       <template v-for="col in columns" :key="col.key" #[`cell-${col.key}`]="slotProps">
         <slot :name="`cell-${col.key}`" v-bind="slotProps" />
       </template>

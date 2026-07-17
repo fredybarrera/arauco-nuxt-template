@@ -1,6 +1,6 @@
 <script setup lang="ts">
 withDefaults(defineProps<{ text: string; placement?: 'top' | 'bottom' | 'left' | 'right' }>(), {
-  placement: 'top'
+  placement: 'top',
 })
 </script>
 

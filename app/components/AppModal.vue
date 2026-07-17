@@ -3,21 +3,24 @@ type Size = 'sm' | 'md' | 'lg'
 
 const open = defineModel<boolean>('open', { default: false })
 
-const props = withDefaults(defineProps<{
-  title?: string
-  size?: Size
-  /** En false oculta la X y desactiva cierre por backdrop/Escape (flujos obligatorios). */
-  closable?: boolean
-}>(), {
-  title: undefined,
-  size: 'md',
-  closable: true
-})
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    size?: Size
+    /** En false oculta la X y desactiva cierre por backdrop/Escape (flujos obligatorios). */
+    closable?: boolean
+  }>(),
+  {
+    title: undefined,
+    size: 'md',
+    closable: true,
+  }
+)
 
 const sizeClasses: Record<Size, string> = {
   sm: 'max-w-sm',
   md: 'max-w-lg',
-  lg: 'max-w-2xl'
+  lg: 'max-w-2xl',
 }
 
 const panel = ref<HTMLElement | null>(null)
@@ -43,7 +46,10 @@ useFocusTrap(panel, open, { onEscape: cerrar })
         class="flex max-h-[88vh] w-full flex-col rounded-(--radius-lg) border border-line bg-card shadow-md transition-transform duration-[200ms]"
         :class="[sizeClasses[size], open ? 'scale-100' : 'scale-95']"
       >
-        <div v-if="title || closable" class="flex shrink-0 items-center justify-between border-b border-line px-5 py-[18px]">
+        <div
+          v-if="title || closable"
+          class="flex shrink-0 items-center justify-between border-b border-line px-5 py-[18px]"
+        >
           <h3 class="m-0 text-[15px] font-bold text-ink">{{ title }}</h3>
           <button
             v-if="closable"

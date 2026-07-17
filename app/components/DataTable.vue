@@ -1,36 +1,46 @@
 <script setup lang="ts">
 import type { DataTableColumn } from '~/types/table'
 
-const props = withDefaults(defineProps<{
-  columns: DataTableColumn[]
-  rows?: Record<string, any>[]
-  pageSize?: number
-  exportFilename?: string
-  title?: string
-  searchPlaceholder?: string
-  searchKeys?: string[]
-  chips?: { label: string; value: string }[]
-  chipKey?: string
-  /** Total antes de filtros externos (p. ej. FilteredTable) para el conteo "N de M". */
-  totalRows?: number
-}>(), {
-  rows: undefined,
-  pageSize: 0,
-  exportFilename: undefined,
-  title: undefined,
-  searchPlaceholder: undefined,
-  searchKeys: undefined,
-  chips: undefined,
-  chipKey: undefined,
-  totalRows: undefined,
-})
+const props = withDefaults(
+  defineProps<{
+    columns: DataTableColumn[]
+    rows?: Record<string, unknown>[]
+    pageSize?: number
+    exportFilename?: string
+    title?: string
+    searchPlaceholder?: string
+    searchKeys?: string[]
+    chips?: { label: string; value: string }[]
+    chipKey?: string
+    /** Total antes de filtros externos (p. ej. FilteredTable) para el conteo "N de M". */
+    totalRows?: number
+  }>(),
+  {
+    rows: undefined,
+    pageSize: 0,
+    exportFilename: undefined,
+    title: undefined,
+    searchPlaceholder: undefined,
+    searchKeys: undefined,
+    chips: undefined,
+    chipKey: undefined,
+    totalRows: undefined,
+  }
+)
 
 const pagina = ref(1)
 const searchModel = defineModel<string>('search', { default: '' })
 const chipModel = defineModel<string>('chip', { default: '' })
 
-watch(() => props.rows, () => { pagina.value = 1 })
-watch([searchModel, chipModel], () => { pagina.value = 1 })
+watch(
+  () => props.rows,
+  () => {
+    pagina.value = 1
+  }
+)
+watch([searchModel, chipModel], () => {
+  pagina.value = 1
+})
 
 // ── Sorting ───────────────────────────────────────────────────────────────────
 const sortKey = ref<string | null>(null)
@@ -54,12 +64,18 @@ const filteredRows = computed(() => {
 
   if (searchModel.value && props.searchPlaceholder !== undefined) {
     const q = searchModel.value.toLowerCase()
-    const keys = props.searchKeys ?? props.columns.map(c => c.key)
-    result = result.filter(r => keys.some(k => String(r[k] ?? '').toLowerCase().includes(q)))
+    const keys = props.searchKeys ?? props.columns.map((c) => c.key)
+    result = result.filter((r) =>
+      keys.some((k) =>
+        String(r[k] ?? '')
+          .toLowerCase()
+          .includes(q)
+      )
+    )
   }
 
   if (chipModel.value && props.chipKey) {
-    result = result.filter(r => String(r[props.chipKey!]) === chipModel.value)
+    result = result.filter((r) => String(r[props.chipKey!]) === chipModel.value)
   }
 
   return result
@@ -94,9 +110,9 @@ const filasPagina = computed(() => {
 
 function exportarCSV() {
   if (!props.rows || !props.exportFilename) return
-  const enc = props.columns.map(c => `"${c.label}"`).join(',')
-  const filas = sortedRows.value.map(r =>
-    props.columns.map(c => `"${String(r[c.key] ?? '').replace(/"/g, '""')}"`).join(',')
+  const enc = props.columns.map((c) => `"${c.label}"`).join(',')
+  const filas = sortedRows.value.map((r) =>
+    props.columns.map((c) => `"${String(r[c.key] ?? '').replace(/"/g, '""')}"`).join(',')
   )
   const csv = '﻿' + [enc, ...filas].join('\r\n')
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
@@ -111,9 +127,11 @@ function exportarCSV() {
 
 <template>
   <div class="overflow-hidden rounded-(--radius-md) border border-line bg-card shadow-(--shadow-sm)">
-
     <!-- Card header -->
-    <div v-if="title || $slots['title-end']" class="flex items-center gap-3 border-b border-line px-[18px] py-[15px]">
+    <div
+      v-if="title || $slots['title-end']"
+      class="flex items-center gap-3 border-b border-line px-[18px] py-[15px]"
+    >
       <span class="text-[15px] font-bold text-ink">{{ title }}</span>
       <slot name="title-end" />
     </div>
@@ -123,7 +141,10 @@ function exportarCSV() {
       v-if="searchPlaceholder || chips?.length || $slots['toolbar-end']"
       class="flex flex-wrap items-center gap-[10px] border-b border-line px-[18px] py-[14px]"
     >
-      <div v-if="searchPlaceholder" class="flex min-w-60 items-center gap-2 rounded-full border border-line-strong bg-paper px-[14px] py-2">
+      <div
+        v-if="searchPlaceholder"
+        class="flex min-w-60 items-center gap-2 rounded-full border border-line-strong bg-paper px-[14px] py-2"
+      >
         <AppIcon name="search" :size="14" class="shrink-0 text-ink-soft" />
         <input
           v-model="searchModel"
@@ -138,11 +159,15 @@ function exportarCSV() {
           :key="c.value"
           type="button"
           class="rounded-full border px-[13px] py-[6px] text-[12.5px] font-semibold transition-colors"
-          :class="chipModel === c.value
-            ? 'border-calipso bg-calipso text-primary-ink'
-            : 'border-line-strong bg-card text-ink-soft hover:bg-paper-2'"
+          :class="
+            chipModel === c.value
+              ? 'border-calipso bg-calipso text-primary-ink'
+              : 'border-line-strong bg-card text-ink-soft hover:bg-paper-2'
+          "
           @click="chipModel = c.value"
-        >{{ c.label }}</button>
+        >
+          {{ c.label }}
+        </button>
       </div>
       <div class="flex-1" />
       <slot name="toolbar-end" />
@@ -195,7 +220,7 @@ function exportarCSV() {
                 Sin resultados
               </td>
             </tr>
-            <tr v-else v-for="(row, i) in filasPagina" :key="i" class="border-b border-line last:border-b-0">
+            <tr v-for="(row, i) in filasPagina" v-else :key="i" class="border-b border-line last:border-b-0">
               <td v-for="col in columns" :key="col.key" class="px-[18px] py-3 text-[13.5px]">
                 <slot :name="`cell-${col.key}`" :row="row" :value="row[col.key]">
                   {{ row[col.key] ?? '—' }}
@@ -215,14 +240,15 @@ function exportarCSV() {
     >
       <span v-if="rows !== undefined" class="font-mono text-[12.5px] text-ink-soft">
         {{ filteredRows.length }} registro{{ filteredRows.length !== 1 ? 's' : '' }}
-        <template v-if="filteredRows.length < (totalRows ?? rows?.length ?? 0)"> de {{ totalRows ?? rows?.length }}</template>
+        <template v-if="filteredRows.length < (totalRows ?? rows?.length ?? 0)">
+          de {{ totalRows ?? rows?.length }}</template
+        >
         <template v-if="pageSize && totalPaginas > 1"> · pág. {{ pagina }}/{{ totalPaginas }}</template>
       </span>
       <slot name="footer" />
 
       <AppPagination v-if="pageSize && totalPaginas > 1" v-model="pagina" :total-pages="totalPaginas" />
     </div>
-
   </div>
 </template>
 

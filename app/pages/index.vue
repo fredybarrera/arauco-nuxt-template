@@ -7,8 +7,8 @@ const { showToast } = useToast()
     <header>
       <h1 class="font-display text-2xl font-bold tracking-wide uppercase">Plantilla base · Planos DS</h1>
       <p class="mt-1 text-sm text-ink-soft">
-        Base limpia con tokens Tailwind v4, layout corporativo y componentes del design system,
-        sin lógica de negocio. Revisa la página
+        Base limpia con tokens Tailwind v4, layout corporativo y componentes del design system, sin lógica de
+        negocio. Revisa la página
         <NuxtLink to="/componentes" class="font-semibold text-calipso hover:underline">Componentes</NuxtLink>
         para ver la librería en acción.
       </p>
@@ -24,9 +24,17 @@ const { showToast } = useToast()
     <section class="frame">
       <h2 class="mb-3 font-display text-lg font-bold">Primeros pasos</h2>
       <ol class="list-decimal space-y-1.5 pl-5 text-sm text-ink-soft">
-        <li>Cambia título y navegación en <code class="font-semibold text-ink">app/layouts/default.vue</code>.</li>
-        <li>Ajusta los tokens (colores, radios, sombras) en <code class="font-semibold text-ink">app/assets/css/main.css</code> (bloque <code>@theme</code>).</li>
-        <li>Crea tus páginas en <code class="font-semibold text-ink">app/pages/</code> — el layout y los componentes se auto-importan.</li>
+        <li>
+          Cambia título y navegación en <code class="font-semibold text-ink">app/layouts/default.vue</code>.
+        </li>
+        <li>
+          Ajusta los tokens (colores, radios, sombras) en
+          <code class="font-semibold text-ink">app/assets/css/main.css</code> (bloque <code>@theme</code>).
+        </li>
+        <li>
+          Crea tus páginas en <code class="font-semibold text-ink">app/pages/</code> — el layout y los
+          componentes se auto-importan.
+        </li>
         <li>Elimina las páginas demo cuando ya no las necesites.</li>
       </ol>
       <div class="mt-4 flex gap-2">

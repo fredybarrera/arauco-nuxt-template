@@ -16,7 +16,7 @@ const trendClass = computed(() => (props.trend === 'up' ? 'text-success-ink' : '
     :class="[
       'relative overflow-hidden bg-card border border-line rounded-md py-5 pr-5 pl-6',
       'before:content-[\'\'] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1',
-      stripeClass
+      stripeClass,
     ]"
   >
     <div class="text-xs text-ink-soft mb-2.5">{{ label }}</div>

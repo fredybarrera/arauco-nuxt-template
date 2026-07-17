@@ -56,13 +56,24 @@ const bars = computed(() => {
       role="img"
       :aria-label="`Gráfico de barras: ${data.map((d) => `${d.label} ${format(d.value)}`).join(', ')}`"
     >
-      <line x1="6" :y1="baseline" :x2="width - 6" :y2="baseline" class="stroke-line-strong" stroke-width="1" />
+      <line
+        x1="6"
+        :y1="baseline"
+        :x2="width - 6"
+        :y2="baseline"
+        class="stroke-line-strong"
+        stroke-width="1"
+      />
       <template v-for="(b, i) in bars" :key="i">
         <path :d="b.path" class="fill-calipso">
           <title>{{ b.label }}: {{ format(b.value) }}{{ unit ? ' ' + unit : '' }}</title>
         </path>
-        <text :x="b.cx" :y="b.valueY" text-anchor="middle" class="font-mono text-[11px] fill-ink">{{ format(b.value) }}</text>
-        <text :x="b.cx" y="136" text-anchor="middle" class="font-mono text-[10px] fill-ink-soft">{{ b.label }}</text>
+        <text :x="b.cx" :y="b.valueY" text-anchor="middle" class="font-mono text-[11px] fill-ink">
+          {{ format(b.value) }}
+        </text>
+        <text :x="b.cx" y="136" text-anchor="middle" class="font-mono text-[10px] fill-ink-soft">
+          {{ b.label }}
+        </text>
       </template>
     </svg>
   </div>

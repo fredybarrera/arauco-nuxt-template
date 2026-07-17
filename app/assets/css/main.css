@@ -1,131 +1,134 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/* Habilita las utilidades dark:* controladas por la clase .dark en <html> (ver useTheme) */
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* Roboto v51 — auto-hospedada, sin dependencia de CDN externo */
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-100.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-100.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 100;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-100italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-100italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 200;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-200.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-200.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 200;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-200italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-200italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-300.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-300.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 300;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-300italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-300italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-regular.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-regular.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-500.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-500.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-500italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-500italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-600.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-600.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-600italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-600italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-700.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-700.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-700italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-700italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-800.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-800.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 800;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-800italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-800italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-900.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-900.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 900;
   font-display: swap;
-  src: url("../fonts/roboto-v51-latin/roboto-v51-latin-900italic.woff2") format("woff2");
+  src: url('../fonts/roboto-v51-latin/roboto-v51-latin-900italic.woff2') format('woff2');
 }
 
 /*
@@ -139,9 +142,9 @@
   --color-paper: #f2f2f2;
   --color-paper-2: #f2f7ff;
   --color-card: #fffdf8;
-  --color-line: rgba(43, 38, 33, .14);
-  --color-line-strong: rgba(43, 38, 33, .28);
-  --color-grid-line: rgba(43, 38, 33, .06);
+  --color-line: rgba(43, 38, 33, 0.14);
+  --color-line-strong: rgba(43, 38, 33, 0.28);
+  --color-grid-line: rgba(43, 38, 33, 0.06);
 
   --color-corteza: #696158;
   --color-corteza-dark: #3a352f;
@@ -167,25 +170,49 @@
   --color-danger: var(--color-rojo-deep);
   --color-info: var(--color-calipso);
 
-  --font-display: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  --font-body: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-display: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  --font-body: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
   /* Mono desactivada por decisión de diseño: usa la fuente de interfaz en toda la app */
-  --font-mono: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-mono: 'Roboto', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
 
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
 
-  --shadow-sm: 0 1px 2px rgba(43, 38, 33, .08);
-  --shadow-md: 0 4px 14px rgba(43, 38, 33, .12);
+  --shadow-sm: 0 1px 2px rgba(43, 38, 33, 0.08);
+  --shadow-md: 0 4px 14px rgba(43, 38, 33, 0.12);
 
   --spacing-nav-h: 64px;
   --spacing-side-w: 264px;
   --spacing-side-w-collapsed: 64px;
 }
 
+/*
+ * Modo oscuro: re-declara los tokens neutrales bajo html.dark (lo activa useTheme).
+ * Los componentes usan solo utilidades derivadas de tokens, así que esto
+ * re-tematiza toda la app. Los colores de marca no cambian.
+ */
+.dark {
+  --color-ink: #ece7df;
+  --color-ink-soft: #a89f92;
+  --color-paper: #171512;
+  --color-paper-2: #262b31;
+  --color-card: #201d19;
+  --color-line: rgba(236, 231, 223, 0.12);
+  --color-line-strong: rgba(236, 231, 223, 0.3);
+  --color-grid-line: rgba(236, 231, 223, 0.05);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.55);
+}
+
 html {
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 button {
@@ -235,10 +262,10 @@ body {
   .input:disabled {
     @apply opacity-50 cursor-not-allowed;
   }
-  .input[aria-invalid="true"] {
+  .input[aria-invalid='true'] {
     @apply border-danger;
   }
-  .input[aria-invalid="true"]:focus {
+  .input[aria-invalid='true']:focus {
     @apply outline-danger border-danger;
   }
 
@@ -247,7 +274,7 @@ body {
   }
   .frame::before,
   .frame::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 9px;
     height: 9px;
@@ -287,7 +314,7 @@ body {
     white-space: nowrap;
   }
   .tooltip::before {
-    content: "";
+    content: '';
     border: 5px solid transparent;
   }
   .tooltip:hover::before,
@@ -296,47 +323,47 @@ body {
   .tooltip:focus-within::after {
     opacity: 1;
   }
-  .tooltip[data-placement="top"]::after,
+  .tooltip[data-placement='top']::after,
   .tooltip:not([data-placement])::after {
     bottom: calc(100% + 9px);
     left: 50%;
     transform: translateX(-50%);
   }
-  .tooltip[data-placement="top"]::before,
+  .tooltip[data-placement='top']::before,
   .tooltip:not([data-placement])::before {
     bottom: calc(100% + 4px);
     left: 50%;
     transform: translateX(-50%);
     border-top-color: var(--color-corteza-dark);
   }
-  .tooltip[data-placement="bottom"]::after {
+  .tooltip[data-placement='bottom']::after {
     top: calc(100% + 9px);
     left: 50%;
     transform: translateX(-50%);
   }
-  .tooltip[data-placement="bottom"]::before {
+  .tooltip[data-placement='bottom']::before {
     top: calc(100% + 4px);
     left: 50%;
     transform: translateX(-50%);
     border-bottom-color: var(--color-corteza-dark);
   }
-  .tooltip[data-placement="left"]::after {
+  .tooltip[data-placement='left']::after {
     right: calc(100% + 9px);
     top: 50%;
     transform: translateY(-50%);
   }
-  .tooltip[data-placement="left"]::before {
+  .tooltip[data-placement='left']::before {
     right: calc(100% + 4px);
     top: 50%;
     transform: translateY(-50%);
     border-left-color: var(--color-corteza-dark);
   }
-  .tooltip[data-placement="right"]::after {
+  .tooltip[data-placement='right']::after {
     left: calc(100% + 9px);
     top: 50%;
     transform: translateY(-50%);
   }
-  .tooltip[data-placement="right"]::before {
+  .tooltip[data-placement='right']::before {
     left: calc(100% + 4px);
     top: 50%;
     transform: translateY(-50%);
@@ -344,7 +371,12 @@ body {
   }
 
   .skeleton {
-    background: linear-gradient(90deg, var(--color-paper-2) 25%, var(--color-line-strong) 37%, var(--color-paper-2) 63%);
+    background: linear-gradient(
+      90deg,
+      var(--color-paper-2) 25%,
+      var(--color-line-strong) 37%,
+      var(--color-paper-2) 63%
+    );
     background-size: 400% 100%;
     animation: skeleton-shimmer 1.6s ease-in-out infinite;
   }
@@ -356,6 +388,10 @@ body {
 }
 
 @keyframes skeleton-shimmer {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }

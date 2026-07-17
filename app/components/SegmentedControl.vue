@@ -18,7 +18,7 @@ const model = defineModel<string>()
       :aria-selected="model === opt.value"
       :class="[
         'border-none py-2 px-4 text-[13px] font-semibold rounded-sm cursor-pointer font-body inline-flex items-center gap-1.5',
-        model === opt.value ? 'bg-card text-ink shadow-sm' : 'bg-transparent text-ink-soft'
+        model === opt.value ? 'bg-card text-ink shadow-sm' : 'bg-transparent text-ink-soft',
       ]"
       @click="model = opt.value"
     >

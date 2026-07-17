@@ -37,13 +37,18 @@ defineExpose({ current })
                 ? 'bg-calipso text-primary-ink border-calipso'
                 : i === current
                   ? 'border-calipso text-primary-ink font-bold'
-                  : 'border-line-strong text-ink-soft'
+                  : 'border-line-strong text-ink-soft',
             ]"
           >
             <AppIcon v-if="i < current" name="check" :size="13" />
             <template v-else>{{ i + 1 }}</template>
           </span>
-          <span :class="['text-[13px] whitespace-nowrap', i <= current ? 'text-ink font-semibold' : 'text-ink-soft']">
+          <span
+            :class="[
+              'text-[13px] whitespace-nowrap',
+              i <= current ? 'text-ink font-semibold' : 'text-ink-soft',
+            ]"
+          >
             {{ step.label }}
           </span>
         </button>

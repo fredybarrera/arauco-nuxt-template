@@ -18,7 +18,7 @@ export function useToast() {
   }
 
   function dismiss(id: number) {
-    toasts.value = toasts.value.filter(t => t.id !== id)
+    toasts.value = toasts.value.filter((t) => t.id !== id)
   }
 
   return { toasts, showToast, dismiss }

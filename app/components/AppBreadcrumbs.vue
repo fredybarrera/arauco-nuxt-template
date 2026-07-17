@@ -17,12 +17,14 @@ defineProps<{ items: BreadcrumbItem[] }>()
           v-if="item.to && i < items.length - 1"
           :to="item.to"
           class="text-ink-soft no-underline hover:text-calipso-deep hover:underline"
-        >{{ item.label }}</NuxtLink>
+          >{{ item.label }}</NuxtLink
+        >
         <span
           v-else
           class="font-semibold text-ink"
           :aria-current="i === items.length - 1 ? 'page' : undefined"
-        >{{ item.label }}</span>
+          >{{ item.label }}</span
+        >
       </li>
     </ol>
   </nav>

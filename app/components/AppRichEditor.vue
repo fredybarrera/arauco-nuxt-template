@@ -42,10 +42,21 @@ watch(model, (v) => aplicarDesdeFuera(v ?? ''))
     <div class="flex flex-wrap items-center gap-0.5 border-b border-line px-1.5 py-1">
       <button type="button" class="rich-btn font-bold" title="Negrita" @click="ejecutar('bold')">B</button>
       <button type="button" class="rich-btn italic" title="Cursiva" @click="ejecutar('italic')">I</button>
-      <button type="button" class="rich-btn underline" title="Subrayado" @click="ejecutar('underline')">U</button>
+      <button type="button" class="rich-btn underline" title="Subrayado" @click="ejecutar('underline')">
+        U
+      </button>
       <span class="mx-1 h-4 w-px bg-line-strong" />
-      <button type="button" class="rich-btn" title="Lista con viñetas" @click="ejecutar('insertUnorderedList')">☰</button>
-      <button type="button" class="rich-btn" title="Lista numerada" @click="ejecutar('insertOrderedList')">☱</button>
+      <button
+        type="button"
+        class="rich-btn"
+        title="Lista con viñetas"
+        @click="ejecutar('insertUnorderedList')"
+      >
+        ☰
+      </button>
+      <button type="button" class="rich-btn" title="Lista numerada" @click="ejecutar('insertOrderedList')">
+        ☱
+      </button>
       <span class="mx-1 h-4 w-px bg-line-strong" />
       <button type="button" class="rich-btn" title="Insertar enlace" @click="insertarEnlace">
         <AppIcon name="external" :size="13" />

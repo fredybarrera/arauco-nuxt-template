@@ -16,7 +16,7 @@ export function formatNumber(value: number | null | undefined, decimals = 0): st
   if (value == null || Number.isNaN(value)) return ''
   return new Intl.NumberFormat('es-CL', {
     minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals
+    maximumFractionDigits: decimals,
   }).format(value)
 }
 
@@ -25,7 +25,7 @@ export function formatCurrency(value: number | null | undefined): string {
   return new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value)
 }
 

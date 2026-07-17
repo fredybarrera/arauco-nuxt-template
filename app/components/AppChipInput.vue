@@ -34,6 +34,6 @@ function removeChip(i: number) {
       class="flex-1 min-w-[120px] border-none bg-transparent text-[13.5px] text-ink outline-none font-body"
       placeholder="Agregar etiqueta…"
       @keydown.enter.prevent="addChip"
-    >
+    />
   </div>
 </template>

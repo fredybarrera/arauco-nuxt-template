@@ -15,8 +15,14 @@ const paginas = computed<(number | '…')[]>(() => {
 
 <template>
   <nav class="flex items-center gap-1" aria-label="Paginación">
-    <button type="button" class="page-btn" :disabled="page === 1" aria-label="Página anterior" @click="page--">
-      <AppIcon name="chevright" :size="12" style="transform:rotate(180deg)" />
+    <button
+      type="button"
+      class="page-btn"
+      :disabled="page === 1"
+      aria-label="Página anterior"
+      @click="page--"
+    >
+      <AppIcon name="chevright" :size="12" style="transform: rotate(180deg)" />
     </button>
     <template v-for="p in paginas" :key="String(p)">
       <button
@@ -26,10 +32,18 @@ const paginas = computed<(number | '…')[]>(() => {
         :class="{ 'is-active': p === page }"
         :aria-current="p === page ? 'page' : undefined"
         @click="page = p as number"
-      >{{ p }}</button>
+      >
+        {{ p }}
+      </button>
       <span v-else class="px-1 font-mono text-[12.5px] text-ink-soft">…</span>
     </template>
-    <button type="button" class="page-btn" :disabled="page === totalPages" aria-label="Página siguiente" @click="page++">
+    <button
+      type="button"
+      class="page-btn"
+      :disabled="page === totalPages"
+      aria-label="Página siguiente"
+      @click="page++"
+    >
       <AppIcon name="chevright" :size="12" />
     </button>
   </nav>

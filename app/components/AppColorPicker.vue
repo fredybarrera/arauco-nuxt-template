@@ -11,7 +11,7 @@ const swatches: Swatch[] = [
   { name: 'Madera', hex: '#dfd1a7' },
   { name: 'Calipso', hex: '#5dbaa9' },
   { name: 'Amarillo', hex: '#f3d01c' },
-  { name: 'Rojo', hex: '#b46a5f' }
+  { name: 'Rojo', hex: '#b46a5f' },
 ]
 
 const model = defineModel<string>({ default: '#5dbaa9' })
@@ -44,7 +44,10 @@ const model = defineModel<string>({ default: '#5dbaa9' })
         </div>
         <div class="flex items-center gap-2 border-t border-line pt-3 font-mono text-xs text-ink-soft">
           <span>HEX</span>
-          <input v-model="model" class="border-none bg-transparent text-ink font-mono text-[12.5px] w-full p-0 outline-none">
+          <input
+            v-model="model"
+            class="border-none bg-transparent text-ink font-mono text-[12.5px] w-full p-0 outline-none"
+          />
         </div>
       </div>
     </template>

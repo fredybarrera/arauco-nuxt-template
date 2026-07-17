@@ -1,12 +1,15 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  /** Diámetro en px. Hereda el color del texto (currentColor). */
-  size?: number
-  label?: string
-}>(), {
-  size: 20,
-  label: 'Cargando…'
-})
+withDefaults(
+  defineProps<{
+    /** Diámetro en px. Hereda el color del texto (currentColor). */
+    size?: number
+    label?: string
+  }>(),
+  {
+    size: 20,
+    label: 'Cargando…',
+  }
+)
 </script>
 
 <template>

@@ -39,8 +39,9 @@ export function useFocusTrap(
 
   function focusables(): HTMLElement[] {
     if (!container.value) return []
-    return Array.from(container.value.querySelectorAll<HTMLElement>(FOCUSABLE))
-      .filter(el => el.offsetParent !== null || el === document.activeElement)
+    return Array.from(container.value.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+      (el) => el.offsetParent !== null || el === document.activeElement
+    )
   }
 
   function onKeydown(e: KeyboardEvent) {
@@ -81,10 +82,14 @@ export function useFocusTrap(
     previousFocus = null
   }
 
-  watch(active, (isActive, wasActive) => {
-    if (isActive && !wasActive) activate()
-    else if (!isActive && wasActive) deactivate()
-  }, { immediate: true })
+  watch(
+    active,
+    (isActive, wasActive) => {
+      if (isActive && !wasActive) activate()
+      else if (!isActive && wasActive) deactivate()
+    },
+    { immediate: true }
+  )
 
   onUnmounted(() => {
     if (active.value) deactivate()

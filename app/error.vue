@@ -21,9 +21,11 @@ function volver() {
         {{ is404 ? 'Página no encontrada' : 'Algo salió mal' }}
       </h1>
       <p class="mt-2 text-sm text-ink-soft">
-        {{ is404
-          ? 'La ruta que buscas no existe o fue movida.'
-          : (error.statusMessage || 'Ocurrió un error inesperado. Intenta nuevamente.') }}
+        {{
+          is404
+            ? 'La ruta que buscas no existe o fue movida.'
+            : error.statusMessage || 'Ocurrió un error inesperado. Intenta nuevamente.'
+        }}
       </p>
       <div class="mt-6 flex justify-center">
         <AppButton variant="primary" @click="volver">Volver al inicio</AppButton>

@@ -8,6 +8,8 @@ lista para iniciar un proyecto nuevo.
 
 - **Nuxt 4** (SPA, `ssr: false`) + **TypeScript estricto**
 - **Tailwind CSS v4** (tokens vía `@theme` en CSS, sin `tailwind.config`)
+- **ESLint** (`@nuxt/eslint`) + **Prettier** (formato; `eslint-config-prettier` evita conflictos)
+- **Modo oscuro** con clase `.dark` en `<html>` (`useTheme` + persistencia en localStorage)
 - Fuente **Roboto** auto-hospedada (sin CDN)
 - Sin Pinia (usar `useState()`) y sin Axios (usar `$fetch` / `useFetch`)
 
@@ -15,9 +17,11 @@ lista para iniciar un proyecto nuevo.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+npm run dev           # http://localhost:5173
 npm run build
 npm run typecheck
+npm run lint          # eslint . (lint:fix para autocorregir)
+npm run format        # prettier --write . (format:check en CI)
 ```
 
 Las páginas `/` y `/componentes` son demos: muestran la librería en acción. Elimínalas
@@ -31,7 +35,8 @@ app/
 │   ├── css/main.css        # Tokens @theme (colores, fuentes, radios, sombras) + clases .input, .frame, .tooltip, .skeleton
 │   └── fonts/              # Roboto woff2 auto-hospedada
 ├── components/             # Design system Planos (auto-importados)
-├── composables/            # useToast, useConfirm, useScrollSpy, useFormField, useFocusTrap
+├── composables/            # useToast, useConfirm, useScrollSpy, useFormField, useFocusTrap, useTheme
+├── plugins/theme.client.ts # Aplica el tema guardado (o el del sistema) al arrancar
 ├── error.vue               # Página de error 404/500 con estilo del DS
 ├── layouts/default.vue     # Shell: navbar + sidebar + ToastStack + ConfirmDialog
 ├── pages/                  # index.vue y componentes.vue (demos)
@@ -49,7 +54,11 @@ app/
 3. **Colores/tokens**: bloque `@theme` en `app/assets/css/main.css`. Los componentes usan
    solo utilidades derivadas de tokens (`bg-calipso`, `text-ink`, `border-line`…), así que
    cambiar la paleta ahí re-tematiza toda la app.
-4. **Auth**: esta plantilla no incluye MSAL/Azure AD. Si tu proyecto lo necesita, copia desde
+4. **Modo oscuro**: los tokens neutrales se re-declaran bajo `.dark` en `main.css`; ajusta
+   ahí la paleta oscura. El toggle vive en el navbar (`#actions` del layout) y usa
+   `useTheme()` (`theme`, `toggleTheme`, `setTheme`). También existen utilidades `dark:*`
+   para casos puntuales.
+5. **Auth**: esta plantilla no incluye MSAL/Azure AD. Si tu proyecto lo necesita, copia desde
    `arauco-project/frontend`: `app/plugins/msal.client.ts`, `app/plugins/api.client.ts`,
    `app/middleware/auth.global.ts`, `app/composables/useAuth.ts` y la sección `runtimeConfig`
    de `nuxt.config.ts`.
@@ -61,7 +70,7 @@ app/
 ```ts
 // Toast
 const { showToast } = useToast()
-showToast('Guardado', 'success')          // 'success' | 'error' | 'warning' | 'info'
+showToast('Guardado', 'success') // 'success' | 'error' | 'warning' | 'info'
 
 // Confirmación
 const { confirmar } = useConfirm()

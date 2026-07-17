@@ -1,24 +1,27 @@
 <script setup lang="ts">
 const model = defineModel<string>({ default: '' })
 
-const props = withDefaults(defineProps<{
-  type?: string
-  placeholder?: string
-  disabled?: boolean
-  readonly?: boolean
-  icon?: string
-  clearable?: boolean
-  /** Fuerza el estado de error; dentro de AppFormField basta con pasar `error` al wrapper. */
-  invalid?: boolean
-}>(), {
-  type: 'text',
-  placeholder: undefined,
-  disabled: false,
-  readonly: false,
-  icon: undefined,
-  clearable: false,
-  invalid: false
-})
+const props = withDefaults(
+  defineProps<{
+    type?: string
+    placeholder?: string
+    disabled?: boolean
+    readonly?: boolean
+    icon?: string
+    clearable?: boolean
+    /** Fuerza el estado de error; dentro de AppFormField basta con pasar `error` al wrapper. */
+    invalid?: boolean
+  }>(),
+  {
+    type: 'text',
+    placeholder: undefined,
+    disabled: false,
+    readonly: false,
+    icon: undefined,
+    clearable: false,
+    invalid: false,
+  }
+)
 
 const field = useFormField()
 const isInvalid = computed(() => props.invalid || Boolean(field?.error.value))
@@ -42,7 +45,7 @@ const isInvalid = computed(() => props.invalid || Boolean(field?.error.value))
       :aria-invalid="isInvalid || undefined"
       class="input"
       :class="[icon && 'pl-9', clearable && model && 'pr-9']"
-    >
+    />
     <button
       v-if="clearable && model && !disabled && !readonly"
       type="button"

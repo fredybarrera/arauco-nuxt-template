@@ -1,22 +1,25 @@
 <script setup lang="ts">
 const model = defineModel<Date | null>({ default: null })
 
-const props = withDefaults(defineProps<{
-  placeholder?: string
-  disabled?: boolean
-  /** Muestra el calendario siempre visible, sin popover. */
-  inline?: boolean
-  min?: Date | null
-  max?: Date | null
-  invalid?: boolean
-}>(), {
-  placeholder: 'dd/mm/aaaa',
-  disabled: false,
-  inline: false,
-  min: null,
-  max: null,
-  invalid: false
-})
+const props = withDefaults(
+  defineProps<{
+    placeholder?: string
+    disabled?: boolean
+    /** Muestra el calendario siempre visible, sin popover. */
+    inline?: boolean
+    min?: Date | null
+    max?: Date | null
+    invalid?: boolean
+  }>(),
+  {
+    placeholder: 'dd/mm/aaaa',
+    disabled: false,
+    inline: false,
+    min: null,
+    max: null,
+    invalid: false,
+  }
+)
 
 const field = useFormField()
 const isInvalid = computed(() => props.invalid || Boolean(field?.error.value))
@@ -27,8 +30,18 @@ const viewDate = ref(model.value ? new Date(model.value) : new Date())
 
 const weekdays = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
 const monthNames = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
 ]
 
 const today = new Date()
@@ -37,7 +50,11 @@ function daysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate()
 }
 
-interface Cell { day: number; muted: boolean; date: Date }
+interface Cell {
+  day: number
+  muted: boolean
+  date: Date
+}
 
 const cells = computed<Cell[]>(() => {
   const year = viewDate.value.getFullYear()
@@ -129,7 +146,11 @@ const formatted = computed(() => formatDate(model.value))
 <template>
   <div ref="root" :class="inline ? 'w-[280px]' : 'relative w-full max-w-[280px]'">
     <div v-if="!inline" class="relative">
-      <AppIcon name="calendar" :size="16" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft" />
+      <AppIcon
+        name="calendar"
+        :size="16"
+        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft"
+      />
       <input
         :id="field?.id"
         class="input cursor-pointer pl-9"
@@ -143,14 +164,16 @@ const formatted = computed(() => formatDate(model.value))
         @click="toggle"
         @keydown.enter.prevent="toggle"
         @keydown.space.prevent="toggle"
-      >
+      />
     </div>
 
     <div
       v-if="inline || open"
-      :class="inline
-        ? ''
-        : 'absolute left-0 top-[calc(100%+6px)] z-40 w-[280px] rounded-(--radius-md) border border-line bg-card p-3.5 shadow-md'"
+      :class="
+        inline
+          ? ''
+          : 'absolute left-0 top-[calc(100%+6px)] z-40 w-[280px] rounded-(--radius-md) border border-line bg-card p-3.5 shadow-md'
+      "
     >
       <div class="flex items-center justify-between mb-3.5">
         <button
@@ -161,7 +184,9 @@ const formatted = computed(() => formatDate(model.value))
         >
           <AppIcon name="chevright" :size="13" class="rotate-180" />
         </button>
-        <span class="font-display font-bold text-[13.5px]">{{ monthNames[viewDate.getMonth()] }} {{ viewDate.getFullYear() }}</span>
+        <span class="font-display font-bold text-[13.5px]"
+          >{{ monthNames[viewDate.getMonth()] }} {{ viewDate.getFullYear() }}</span
+        >
         <button
           type="button"
           class="w-[26px] h-[26px] rounded-full border-none bg-paper-2 text-ink-soft flex items-center justify-center cursor-pointer"
@@ -181,12 +206,15 @@ const formatted = computed(() => formatDate(model.value))
           :class="[
             'flex items-center justify-center h-[30px] rounded-full text-xs cursor-pointer text-ink hover:bg-paper-2',
             cell.muted ? 'text-ink-soft opacity-40 hover:bg-transparent cursor-default' : '',
-            !cell.muted && isOutOfRange(cell.date) ? 'text-ink-soft opacity-30 hover:bg-transparent cursor-not-allowed' : '',
+            !cell.muted && isOutOfRange(cell.date)
+              ? 'text-ink-soft opacity-30 hover:bg-transparent cursor-not-allowed'
+              : '',
             isToday(cell.date) && !isSelected(cell.date) ? 'border-[1.5px] border-calipso font-bold' : '',
-            isSelected(cell.date) ? 'bg-calipso text-primary-ink font-bold hover:bg-calipso' : ''
+            isSelected(cell.date) ? 'bg-calipso text-primary-ink font-bold hover:bg-calipso' : '',
           ]"
           @click="select(cell)"
-        >{{ cell.day }}</span>
+          >{{ cell.day }}</span
+        >
       </div>
     </div>
   </div>

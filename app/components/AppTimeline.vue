@@ -12,7 +12,7 @@ const markerTone: Record<string, string> = {
   default: 'bg-calipso',
   warning: 'bg-amarillo',
   danger: 'bg-rojo-deep',
-  neutral: 'bg-ink-soft'
+  neutral: 'bg-ink-soft',
 }
 </script>
 
@@ -23,7 +23,7 @@ const markerTone: Record<string, string> = {
       <span
         :class="[
           'absolute -left-[26px] top-[3px] w-2.5 h-2.5 rounded-full border-2 border-card shadow-[0_0_0_1px_var(--color-line-strong)]',
-          markerTone[e.tone || 'default']
+          markerTone[e.tone || 'default'],
         ]"
       />
       <div class="font-mono text-[11px] text-ink-soft mb-1">{{ e.time }}</div>

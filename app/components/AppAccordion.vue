@@ -25,7 +25,10 @@ function toggle(i: number) {
         <AppIcon
           name="chevdown"
           :size="14"
-          :class="['text-ink-soft transition-transform duration-[180ms] shrink-0', openSet.has(i) ? 'rotate-180' : '']"
+          :class="[
+            'text-ink-soft transition-transform duration-[180ms] shrink-0',
+            openSet.has(i) ? 'rotate-180' : '',
+          ]"
         />
       </button>
       <div

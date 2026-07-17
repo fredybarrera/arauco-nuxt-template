@@ -8,7 +8,7 @@ const isOpen = computed(() => state.value.open)
 // Foco inicial en "Confirmar": Enter confirma de forma nativa, sin listener global.
 useFocusTrap(panel, isOpen, {
   onEscape: () => responder(false),
-  initialFocus: () => confirmBtn.value?.$el ?? null
+  initialFocus: () => confirmBtn.value?.$el ?? null,
 })
 </script>
 
@@ -33,7 +33,12 @@ useFocusTrap(panel, isOpen, {
           <AppButton variant="outline" size="sm" @click="responder(false)">
             {{ state.cancelLabel ?? 'Cancelar' }}
           </AppButton>
-          <AppButton ref="confirmBtn" :variant="state.tone === 'danger' ? 'danger' : 'primary'" size="sm" @click="responder(true)">
+          <AppButton
+            ref="confirmBtn"
+            :variant="state.tone === 'danger' ? 'danger' : 'primary'"
+            size="sm"
+            @click="responder(true)"
+          >
             {{ state.confirmLabel ?? 'Confirmar' }}
           </AppButton>
         </div>

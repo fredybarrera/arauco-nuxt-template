@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ align?: 'left' | 'right' }>(), { align: 'left' })
+withDefaults(defineProps<{ align?: 'left' | 'right' }>(), { align: 'left' })
 
 const open = ref(false)
 const root = ref<HTMLElement | null>(null)
@@ -38,7 +38,7 @@ defineExpose({ close: () => (open.value = false) })
       v-show="open"
       :class="[
         'absolute top-[calc(100%+6px)] min-w-[190px] bg-card border border-line rounded-md shadow-md p-1.5 z-30',
-        align === 'right' ? 'right-0' : 'left-0'
+        align === 'right' ? 'right-0' : 'left-0',
       ]"
     >
       <slot name="menu" :close="() => (open = false)" />

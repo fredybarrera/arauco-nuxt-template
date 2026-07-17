@@ -1,5 +1,8 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ variant?: 'line' | 'avatar'; width?: string }>(), { variant: 'line' })
+withDefaults(defineProps<{ variant?: 'line' | 'avatar'; width?: string }>(), {
+  variant: 'line',
+  width: undefined,
+})
 </script>
 
 <template>

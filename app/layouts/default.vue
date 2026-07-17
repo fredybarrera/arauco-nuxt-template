@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const sidenavCollapsed = useState('sidenavCollapsed', () => false)
+const { theme, toggleTheme } = useTheme()
 
 function toggleSidenav() {
   sidenavCollapsed.value = !sidenavCollapsed.value
@@ -8,7 +9,7 @@ function toggleSidenav() {
 // Personalizar aquí la navegación del proyecto
 const links = [
   { label: 'Inicio', to: '/', icon: 'home' },
-  { label: 'Componentes', to: '/componentes', icon: 'box' }
+  { label: 'Componentes', to: '/componentes', icon: 'box' },
 ]
 </script>
 
@@ -22,6 +23,16 @@ const links = [
       user-name="Nombre Apellido"
       @toggle-sidenav="toggleSidenav"
     >
+      <template #actions>
+        <button
+          type="button"
+          class="flex h-9 w-9 items-center justify-center rounded-(--radius-md) border border-white/15 bg-white/6 text-[#eee6d4] hover:bg-white/15"
+          :aria-label="theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+          @click="toggleTheme()"
+        >
+          <AppIcon :name="theme === 'dark' ? 'sun' : 'moon'" :size="16" />
+        </button>
+      </template>
       <template #user-menu>
         <div class="p-2">
           <button

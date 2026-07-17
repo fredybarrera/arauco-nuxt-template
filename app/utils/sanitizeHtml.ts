@@ -1,6 +1,33 @@
-const TAGS_PERMITIDOS = new Set(['P', 'BR', 'B', 'STRONG', 'I', 'EM', 'U', 'UL', 'OL', 'LI', 'A', 'DIV', 'SPAN', 'BLOCKQUOTE'])
+const TAGS_PERMITIDOS = new Set([
+  'P',
+  'BR',
+  'B',
+  'STRONG',
+  'I',
+  'EM',
+  'U',
+  'UL',
+  'OL',
+  'LI',
+  'A',
+  'DIV',
+  'SPAN',
+  'BLOCKQUOTE',
+])
 const ATRIBUTOS_PERMITIDOS: Record<string, string[]> = { A: ['href'] }
-const ELIMINAR_COMPLETO = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'FORM', 'INPUT', 'BUTTON', 'LINK', 'META'])
+const ELIMINAR_COMPLETO = new Set([
+  'SCRIPT',
+  'STYLE',
+  'IFRAME',
+  'OBJECT',
+  'EMBED',
+  'SVG',
+  'FORM',
+  'INPUT',
+  'BUTTON',
+  'LINK',
+  'META',
+])
 
 /**
  * Sanitización client-side del HTML del editor WYSIWYG (contenteditable):

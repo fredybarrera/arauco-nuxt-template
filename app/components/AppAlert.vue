@@ -1,10 +1,11 @@
 <script setup lang="ts">
 type Tone = 'success' | 'warning' | 'danger' | 'info'
 
-const props = withDefaults(
-  defineProps<{ tone?: Tone; title?: string; dismissible?: boolean }>(),
-  { tone: 'info', dismissible: false }
-)
+const props = withDefaults(defineProps<{ tone?: Tone; title?: string; dismissible?: boolean }>(), {
+  tone: 'info',
+  title: undefined,
+  dismissible: false,
+})
 
 const emit = defineEmits<{ dismiss: [] }>()
 
@@ -12,20 +13,17 @@ const toneIcon: Record<Tone, string> = {
   success: 'check',
   warning: 'alert',
   danger: 'alert',
-  info: 'info'
+  info: 'info',
 }
 
 const toneClasses: Record<Tone, string> = {
   success: 'bg-verde/9 border-verde/35 text-success-ink',
   warning: 'bg-amarillo/12 border-amarillo/45 text-warning-ink',
   danger: 'bg-rojo/9 border-rojo/35 text-rojo-deep',
-  info: 'bg-calipso/9 border-calipso/35 text-primary-ink'
+  info: 'bg-calipso/9 border-calipso/35 text-primary-ink',
 }
 
-const classes = computed(() => [
-  'flex gap-3 items-start p-4 rounded-md border',
-  toneClasses[props.tone]
-])
+const classes = computed(() => ['flex gap-3 items-start p-4 rounded-md border', toneClasses[props.tone]])
 </script>
 
 <template>

@@ -30,7 +30,7 @@ const points = computed(() => {
   return vals.map((v, i) => ({
     x: padLeft + (i / (vals.length - 1)) * plotWidth,
     y: padTop + plotHeight - ((v - min) / range) * plotHeight,
-    v
+    v,
   }))
 })
 
@@ -49,9 +49,21 @@ const lastPoint = computed(() => points.value[points.value.length - 1])
     <div v-if="label" class="font-mono text-[11px] tracking-[.05em] uppercase text-ink-soft mb-3.5">
       {{ label }}
     </div>
-    <svg class="w-full h-auto block" :viewBox="`0 0 ${width} ${height}`" role="img" :aria-label="label || 'Tendencia'">
+    <svg
+      class="w-full h-auto block"
+      :viewBox="`0 0 ${width} ${height}`"
+      role="img"
+      :aria-label="label || 'Tendencia'"
+    >
       <path :d="areaPath" class="fill-calipso" opacity="0.1" stroke="none" />
-      <path :d="linePath" fill="none" class="stroke-calipso" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        :d="linePath"
+        fill="none"
+        class="stroke-calipso"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
       <circle :cx="lastPoint.x" :cy="lastPoint.y" r="5" class="fill-calipso stroke-card" stroke-width="2" />
       <text :x="lastPoint.x + 12" :y="lastPoint.y + 4" class="font-mono text-xs font-bold fill-ink">
         {{ format(lastPoint.v) }}{{ unit ? ' ' + unit : '' }}

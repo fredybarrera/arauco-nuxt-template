@@ -38,8 +38,10 @@ watchEffect(() => {
     :style="{ paddingLeft }"
     :class="[
       'flex items-center gap-2.5 py-2.5 rounded-sm no-underline text-[13.5px] border-l-2 cursor-pointer hover:bg-paper-2 hover:text-ink',
-      isActive ? 'bg-paper-2 text-primary-ink font-semibold border-calipso' : 'text-ink-soft border-transparent',
-      iconOnlyInRail ? 'justify-center px-0' : ''
+      isActive
+        ? 'bg-paper-2 text-primary-ink font-semibold border-calipso'
+        : 'text-ink-soft border-transparent',
+      iconOnlyInRail ? 'justify-center px-0' : '',
     ]"
     @click.prevent="navigate(node.target)"
   >
@@ -53,7 +55,7 @@ watchEffect(() => {
       :class="[
         'w-full flex items-center gap-2.5 py-2.5 rounded-sm text-[13.5px] border-l-2 border-t-0 border-r-0 border-b-0 bg-transparent text-left cursor-pointer font-body hover:bg-paper-2 hover:text-ink',
         isAncestorActive ? 'bg-paper-2 text-primary-ink border-calipso' : 'text-ink-soft border-transparent',
-        iconOnlyInRail ? 'justify-center px-0' : ''
+        iconOnlyInRail ? 'justify-center px-0' : '',
       ]"
       :aria-expanded="isOpen"
       @click="isOpen = !isOpen"
