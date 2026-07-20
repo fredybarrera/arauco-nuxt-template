@@ -227,8 +227,8 @@ sobreescriben lo que necesiten.
 ```ts
 // nuxt.config.ts del proyecto hijo
 export default defineNuxtConfig({
-  extends: ['github:Arauco/arauco-nuxt-template'],
-  // o una versión fijada:  'github:Arauco/arauco-nuxt-template#v1.0.0'
+  extends: ['github:fredybarrera/arauco-nuxt-template'],
+  // o una versión fijada:  'github:fredybarrera/arauco-nuxt-template#v1.0.0'
   // o una ruta local:       '../arauco-nuxt-template'
 })
 ```
