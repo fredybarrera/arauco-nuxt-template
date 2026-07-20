@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+/* Al consumirse como Nuxt Layer remota, los componentes de la capa viven en
+   node_modules/.c12 del proyecto consumidor, y Tailwind v4 excluye node_modules
+   del escaneo automático. @source (relativo a este archivo → carpeta app/ de la
+   capa) fuerza el escaneo de los componentes propios esté donde esté la capa. */
+@source "../../";
+
 /* Habilita las utilidades dark:* controladas por la clase .dark en <html> (ver useTheme) */
 @custom-variant dark (&:where(.dark, .dark *));
 
