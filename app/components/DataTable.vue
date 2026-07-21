@@ -14,6 +14,16 @@ const props = withDefaults(
     chipKey?: string
     /** Total antes de filtros externos (p. ej. FilteredTable) para el conteo "N de M". */
     totalRows?: number
+    /**
+     * Orden resuelto por el consumidor (server-side): la tabla no ordena sus filas, solo refleja
+     * `sortKey`/`sortDir` y emite sus cambios. Úsalo con `v-model:sort-key` / `v-model:sort-dir`.
+     */
+    manualSort?: boolean
+    /**
+     * Paginación resuelta por el consumidor (server-side): la tabla no corta las filas; usa
+     * `totalRows` + `pageSize` para el total de páginas y `v-model:page` para la página actual.
+     */
+    manualPagination?: boolean
   }>(),
   {
     rows: undefined,
@@ -25,27 +35,31 @@ const props = withDefaults(
     chips: undefined,
     chipKey: undefined,
     totalRows: undefined,
+    manualSort: false,
+    manualPagination: false,
   }
 )
 
-const pagina = ref(1)
+// Modelos controlables: si el consumidor no los enlaza, funcionan como estado interno (modo cliente).
+const pagina = defineModel<number>('page', { default: 1 })
+const sortKey = defineModel<string | null>('sortKey', { default: null })
+const sortDir = defineModel<1 | -1>('sortDir', { default: 1 })
 const searchModel = defineModel<string>('search', { default: '' })
 const chipModel = defineModel<string>('chip', { default: '' })
 
+// En paginación server-side el consumidor controla la página (y la resetea al filtrar/ordenar),
+// así que la tabla no debe reiniciarla al llegar filas nuevas de cada fetch.
 watch(
   () => props.rows,
   () => {
-    pagina.value = 1
+    if (!props.manualPagination) pagina.value = 1
   }
 )
 watch([searchModel, chipModel], () => {
-  pagina.value = 1
+  if (!props.manualPagination) pagina.value = 1
 })
 
 // ── Sorting ───────────────────────────────────────────────────────────────────
-const sortKey = ref<string | null>(null)
-const sortDir = ref<1 | -1>(1)
-
 function toggleSort(col: DataTableColumn) {
   if (col.sortable === false) return
   if (sortKey.value === col.key) {
@@ -54,10 +68,11 @@ function toggleSort(col: DataTableColumn) {
     sortKey.value = col.key
     sortDir.value = 1
   }
-  pagina.value = 1
+  // En modo manual el consumidor resetea la página al observar el cambio de orden.
+  if (!props.manualPagination) pagina.value = 1
 }
 
-// ── Filter pipeline (rows mode only) ─────────────────────────────────────────
+// ── Filter pipeline (rows mode, cliente) ─────────────────────────────────────
 const filteredRows = computed(() => {
   if (!props.rows) return []
   let result = props.rows
@@ -83,7 +98,8 @@ const filteredRows = computed(() => {
 
 const sortedRows = computed(() => {
   const rows = filteredRows.value
-  if (!sortKey.value) return rows
+  // En modo manual las filas ya vienen ordenadas por el servidor.
+  if (props.manualSort || !sortKey.value) return rows
   const k = sortKey.value
   const dir = sortDir.value
   return [...rows].sort((a, b) => {
@@ -99,10 +115,13 @@ const sortedRows = computed(() => {
 
 const totalPaginas = computed(() => {
   if (!props.pageSize) return 1
-  return Math.max(1, Math.ceil(filteredRows.value.length / props.pageSize))
+  const base = props.manualPagination ? (props.totalRows ?? 0) : filteredRows.value.length
+  return Math.max(1, Math.ceil(base / props.pageSize))
 })
 
 const filasPagina = computed(() => {
+  // En modo manual el servidor ya entregó exactamente la página pedida.
+  if (props.manualPagination) return sortedRows.value
   if (!props.pageSize) return sortedRows.value
   const i = (pagina.value - 1) * props.pageSize
   return sortedRows.value.slice(i, i + props.pageSize)
@@ -239,10 +258,15 @@ function exportarCSV() {
       class="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-card px-[18px] py-[14px]"
     >
       <span v-if="rows !== undefined" class="font-mono text-[12.5px] text-ink-soft">
-        {{ filteredRows.length }} registro{{ filteredRows.length !== 1 ? 's' : '' }}
-        <template v-if="filteredRows.length < (totalRows ?? rows?.length ?? 0)">
-          de {{ totalRows ?? rows?.length }}</template
-        >
+        <template v-if="manualPagination">
+          {{ filasPagina.length }} de {{ totalRows ?? 0 }} registro{{ (totalRows ?? 0) !== 1 ? 's' : '' }}
+        </template>
+        <template v-else>
+          {{ filteredRows.length }} registro{{ filteredRows.length !== 1 ? 's' : '' }}
+          <template v-if="filteredRows.length < (totalRows ?? rows?.length ?? 0)">
+            de {{ totalRows ?? rows?.length }}</template
+          >
+        </template>
         <template v-if="pageSize && totalPaginas > 1"> · pág. {{ pagina }}/{{ totalPaginas }}</template>
       </span>
       <slot name="footer" />
