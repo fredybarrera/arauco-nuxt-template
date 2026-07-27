@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import type { DataTableColumn, FilterDef } from '#planos/types/table'
 
-const props = defineProps<{
-  columns: DataTableColumn[]
-  rows: Record<string, unknown>[]
-  filters: FilterDef[]
-  searchKeys: string[]
-  searchPlaceholder?: string
-  filename?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    columns: DataTableColumn[]
+    rows: Record<string, unknown>[]
+    filters?: FilterDef[]
+    searchKeys: string[]
+    searchPlaceholder?: string
+    filename?: string
+  }>(),
+  // Los dropdowns de filtro son opcionales (muchas tablas solo buscan por texto). Sin este
+  // default, omitir la prop dejaba `props.filters` en undefined y el computed `activeFilterList`
+  // hacía `.filter` sobre undefined, reventando el componente al montar.
+  { filters: () => [] },
+)
 
 const search = ref('')
 const activeFilters = reactive<Record<string, string>>({})
