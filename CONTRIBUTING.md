@@ -14,16 +14,31 @@ demás:
 
 ## Modelo de ramas
 
-| Rama          | Rol                        | Regla                                                                                          |
-| ------------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
-| `master`      | Línea principal            | Rama por defecto y **única de larga vida**. Lo que hay aquí es «lo próximo que se etiquetará». |
-| `feat/<tema>` | Componente o funcionalidad | Sale de `master` **al día**, PR de vuelta a `master`. Efímera: se borra al mergear.            |
-| `fix/<tema>`  | Corrección                 | Igual que `feat/*`.                                                                            |
+| Rama          | Rol                        | Regla                                                                                                                            |
+| ------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `master`      | Línea principal            | Rama por defecto y **única de larga vida**. **Protegida**: solo entra por PR. Lo que hay aquí es «lo próximo que se etiquetará». |
+| `feat/<tema>` | Componente o funcionalidad | Sale de `master` **al día**, PR de vuelta a `master`. Efímera: **GitHub la borra sola al mergear**.                              |
+| `fix/<tema>`  | Corrección                 | Igual que `feat/*`.                                                                                                              |
 
 No hay `develop`: sobraría. En una app, `develop` es «lo que está en QA»; aquí ese papel lo hace el
 tag, porque los consumidores no siguen una rama, siguen una versión.
 
-> Nombra por tema: `fix/boton-enlace-deshabilitado`, no `fix/varios`.
+> Nombra por tema: `fix/boton-enlace-deshabilitado`, no `fix/varios`. Otros prefijos (`docs/`,
+> `chore/`, `refactor/`) siguen la misma regla; lo que importa es que la rama sea efímera y que
+> el tema se lea en el nombre.
+
+La protección de `master` no exige revisores —aquí no siempre hay otra persona— pero **no admite
+push directo, ni siquiera del dueño del repositorio**. Un cambio de una línea también pasa por
+rama y PR; se puede mergear uno mismo en el momento.
+
+```bash
+git switch master && git pull
+git switch -c fix/mi-arreglo
+# ... commits ...
+git push -u origin fix/mi-arreglo
+gh pr create --base master
+gh pr merge --squash          # la rama se borra sola
+```
 
 ## Publicar una versión
 
