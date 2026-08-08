@@ -10,6 +10,12 @@ const props = withDefaults(
     disabled?: boolean
     /** Muestra spinner y deshabilita el botón. */
     loading?: boolean
+    /**
+     * Etiqueta a renderizar: una nativa (`'a'`, `'label'`) o el nombre de un
+     * componente **registrado globalmente**. `'NuxtLink'` lo está gracias a
+     * `plugins/enlaces.ts` — sin ese registro Vue trataría la cadena como una
+     * etiqueta nativa y dejaría un `<nuxtlink>` mudo, sin avisar.
+     */
     as?: string
     /** Solo aplica cuando `as` es 'button'. Default 'button' para no hacer submit accidental en formularios. */
     type?: 'button' | 'submit' | 'reset'

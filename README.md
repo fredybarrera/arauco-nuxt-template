@@ -190,6 +190,7 @@ son piezas auxiliares o de composición.
 | Componente                       | Notas                                                                                                                                             |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AppCard`                        | Tarjeta contenedora (cartela)                                                                                                                     |
+| `AppButton`                      | `variant`, `size`, `iconOnly`, `loading`; `as` acepta una etiqueta nativa o un componente global — `as="NuxtLink" to="…"` para navegar            |
 | `AppBadge`                       | `tone` + slot                                                                                                                                     |
 | `AppAvatar` / `AppAvatarGroup`   | `initials`; grupo apilado                                                                                                                         |
 | `DataTable` / `FilteredTable`    | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`)                                                                        |
@@ -259,6 +260,12 @@ el alias `#planos` y los ~60 componentes `App*` quedan disponibles y auto-import
   proyecto necesita SSR, tenlo en cuenta al sobreescribir la config.
 - Dentro de código de la capa nunca uses `~/` para referenciar sus propios archivos: usa el
   alias `#planos` (ver nota en [Estructura](#estructura)).
+- `plugins/enlaces.ts` registra `NuxtLink` como componente global. **No lo quites**: los
+  componentes de Nuxt se resuelven al compilar, así que sin ese registro un
+  `<component :is="'NuxtLink'">` —lo que hace `AppButton` con `as="NuxtLink"`— deja en el DOM un
+  `<nuxtlink>` sin `href` ni navegación. Vue no avisa (trata la cadena como etiqueta nativa) y no
+  falla ni en build ni en typecheck: el botón se ve bien y no hace nada. Vale para cualquier
+  componente que quieras nombrar por cadena.
 - Distribución alternativa: publicar la capa como paquete privado (npm / Azure Artifacts) y
   extender con `extends: ['@arauco/planos-ds']`. Aporta semver real a costa de un paso de
   build/publish; recomendable solo cuando varios equipos la consuman.

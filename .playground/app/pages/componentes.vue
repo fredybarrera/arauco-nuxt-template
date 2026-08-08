@@ -169,6 +169,14 @@ async function probarConfirm() {
         <AppButton variant="primary" disabled>Deshabilitado</AppButton>
       </div>
       <div class="mt-4 flex flex-wrap items-center gap-2">
+        <!-- `as` con el nombre de un componente. Tiene que salir un <a> con
+             href: si sale un <nuxtlink> mudo, falta plugins/enlaces.ts. -->
+        <AppButton as="NuxtLink" to="/" variant="outline" size="sm">Enlace (NuxtLink)</AppButton>
+        <AppButton as="a" href="https://arauco.cl" target="_blank" variant="ghost" size="sm">
+          Enlace externo
+        </AppButton>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-2">
         <AppBadge>Neutral</AppBadge>
         <AppBadge tone="success">Éxito</AppBadge>
         <AppBadge tone="warning">Alerta</AppBadge>
