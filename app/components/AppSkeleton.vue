@@ -55,11 +55,7 @@ withDefaults(
     </template>
 
     <!-- card: media + título + líneas -->
-    <div
-      v-else-if="variant === 'card'"
-      aria-hidden="true"
-      class="rounded-lg border border-line bg-card p-4"
-    >
+    <div v-else-if="variant === 'card'" aria-hidden="true" class="rounded-lg border border-line bg-card p-4">
       <div class="skeleton rounded-md h-32 mb-4" />
       <div class="skeleton rounded-sm h-4 mb-2.5" style="width: 70%" />
       <div class="skeleton rounded-sm h-3 mb-2" />

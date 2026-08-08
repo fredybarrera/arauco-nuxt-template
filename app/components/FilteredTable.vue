@@ -13,7 +13,7 @@ const props = withDefaults(
   // Los dropdowns de filtro son opcionales (muchas tablas solo buscan por texto). Sin este
   // default, omitir la prop dejaba `props.filters` en undefined y el computed `activeFilterList`
   // hacía `.filter` sobre undefined, reventando el componente al montar.
-  { filters: () => [] },
+  { filters: () => [] }
 )
 
 const search = ref('')
