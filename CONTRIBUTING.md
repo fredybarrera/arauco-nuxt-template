@@ -1,7 +1,9 @@
 # Guía de contribución
 
 Cómo trabajamos el código de **Planos DS**. Para qué trae la capa y cómo se consume, ver
-[`README.md`](README.md).
+[`README.md`](README.md); para cómo está construida y qué reglas obedece, `docs/` (empezar por
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) y
+[`docs/BUSINESS_RULES.md`](docs/BUSINESS_RULES.md)).
 
 Esto no es una aplicación: es una **librería que otros proyectos fijan por tag**
 (`arauco-apps`, `arauco-mgo`). Eso cambia dos cosas respecto a un repo de app y explica todo lo
@@ -47,9 +49,14 @@ así que **mientras no haya tag, el cambio no le llega a nadie**. Publicar es et
 
 ```bash
 git switch master && git pull
+# 1. anotar la versión en docs/CHANGELOG.md (por PR, como todo lo demás)
 git tag -a v1.0.8 -m "v1.0.8 — <resumen>"
 git push origin v1.0.8
 ```
+
+El paso 1 no es burocracia: [`docs/CHANGELOG.md`](docs/CHANGELOG.md) es donde un consumidor mira
+antes de subir de versión, y donde tiene que estar escrito **qué le va a doler**. Un cambio que
+obliga a tocar código del consumidor se avisa ahí y en el README, no solo en el mensaje del tag.
 
 **SemVer (`MAJOR.MINOR.PATCH`)** leído desde el consumidor, que es quien sufre:
 

@@ -33,7 +33,14 @@ Las páginas `/`, `/componentes` y `/perfil` son demos y viven en `.playground/`
 para que **no** se hereden al usar la capa en otro proyecto. Para reutilizar el DS, ver
 [Usar como Nuxt Layer](#usar-como-nuxt-layer).
 
-Ramas, commits y publicación de versiones: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+### Documentación
+
+| Archivo                                            | Responde                                         |
+| -------------------------------------------------- | ------------------------------------------------ |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)     | Cómo está construida la capa y por qué así       |
+| [`docs/BUSINESS_RULES.md`](docs/BUSINESS_RULES.md) | Las reglas del design system (`RD-nnn`)          |
+| [`docs/CHANGELOG.md`](docs/CHANGELOG.md)           | Qué cambió en cada versión, y qué duele al subir |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)               | Ramas, commits y publicación de versiones        |
 
 ## Estructura
 
