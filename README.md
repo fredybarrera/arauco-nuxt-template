@@ -187,22 +187,22 @@ son piezas auxiliares o de composición.
 
 ### Datos y organización
 
-| Componente                       | Notas                                                                                                                                             |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AppCard`                        | Tarjeta contenedora (cartela)                                                                                                                     |
-| `AppButton`                      | `variant`, `size`, `iconOnly`, `loading`; `as` acepta una etiqueta nativa o un componente global — `as="NuxtLink" to="…"` para navegar            |
-| `AppBadge`                       | `tone` + slot                                                                                                                                     |
-| `AppAvatar` / `AppAvatarGroup`   | `initials`; grupo apilado                                                                                                                         |
-| `DataTable` / `FilteredTable`    | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`)                                                                        |
-| `AppPagination`                  | Standalone: `v-model` página + `total-pages`                                                                                                      |
-| `AppTree` / `AppTreeItem`        | `nodes: TreeNode[]`, `v-model` clave, `v-model:expanded`, `default-expand-all`, `@select`, slot `#label="{ node, depth }"`                        |
-| `AppTransferList`                | Asignación entre dos listas; `v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve, "mover todos" respeta filtro |
-| `AppTimeline`                    | Línea de tiempo                                                                                                                                   |
-| `AppCalendar`                    | Vista mensual; `events: CalendarEvent[]` con `tone`, `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, `@select-day` / `@select-event`     |
-| `AppFileList`                    | `files: FileItem[]` con tamaño, progreso, error y enlace; `@remove`                                                                               |
-| `AppAccordion` / `AppTabs`       | Contenido colapsable / pestañas                                                                                                                   |
-| `AppWizard`                      | Asistente por pasos; slots `#panel-0…n`                                                                                                           |
-| `SegmentedControl` / `StatusBar` | Toggle de opciones / barra de estado                                                                                                              |
+| Componente                       | Notas                                                                                                                                                                                                                     |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppCard`                        | Tarjeta contenedora (cartela)                                                                                                                                                                                             |
+| `AppButton`                      | `variant`, `size`, `iconOnly`, `loading`; `as` acepta una etiqueta nativa o un componente global — `as="NuxtLink" to="…"` para navegar. Un enlace con `disabled`/`loading` se renderiza como `<span>` inerte, sin destino |
+| `AppBadge`                       | `tone` + slot                                                                                                                                                                                                             |
+| `AppAvatar` / `AppAvatarGroup`   | `initials`; grupo apilado                                                                                                                                                                                                 |
+| `DataTable` / `FilteredTable`    | Tabla; la filtrada añade búsqueda, filtros y export (ver `types/table.ts`)                                                                                                                                                |
+| `AppPagination`                  | Standalone: `v-model` página + `total-pages`                                                                                                                                                                              |
+| `AppTree` / `AppTreeItem`        | `nodes: TreeNode[]`, `v-model` clave, `v-model:expanded`, `default-expand-all`, `@select`, slot `#label="{ node, depth }"`                                                                                                |
+| `AppTransferList`                | Asignación entre dos listas; `v-model` valores asignados, `options: SelectOption[]`, `searchable`, doble clic mueve, "mover todos" respeta filtro                                                                         |
+| `AppTimeline`                    | Línea de tiempo                                                                                                                                                                                                           |
+| `AppCalendar`                    | Vista mensual; `events: CalendarEvent[]` con `tone`, `v-model:month`, botón Hoy, "+n más" tras `max-per-day`, `@select-day` / `@select-event`                                                                             |
+| `AppFileList`                    | `files: FileItem[]` con tamaño, progreso, error y enlace; `@remove`                                                                                                                                                       |
+| `AppAccordion` / `AppTabs`       | Contenido colapsable / pestañas                                                                                                                                                                                           |
+| `AppWizard`                      | Asistente por pasos; slots `#panel-0…n`                                                                                                                                                                                   |
+| `SegmentedControl` / `StatusBar` | Toggle de opciones / barra de estado                                                                                                                                                                                      |
 
 ### Indicadores y visualización
 

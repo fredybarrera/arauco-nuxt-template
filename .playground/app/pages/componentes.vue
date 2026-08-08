@@ -175,6 +175,12 @@ async function probarConfirm() {
         <AppButton as="a" href="https://arauco.cl" target="_blank" variant="ghost" size="sm">
           Enlace externo
         </AppButton>
+        <!-- Un enlace apagado no se queda «gris pero navegable»: sin foco,
+             sin clic y con aria-disabled. -->
+        <AppButton as="NuxtLink" to="/" variant="outline" size="sm" disabled>
+          Enlace deshabilitado
+        </AppButton>
+        <AppButton as="NuxtLink" to="/" variant="primary" size="sm" loading>Enlace cargando</AppButton>
       </div>
       <div class="mt-4 flex flex-wrap items-center gap-2">
         <AppBadge>Neutral</AppBadge>
